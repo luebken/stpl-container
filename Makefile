@@ -12,12 +12,15 @@ buildgo:
 
 # build docker 
 builddocker:
+
 	# build builder image which calls `make buildgo`
 	docker build --no-cache -t luebken/build-stpl -f ./Dockerfile.build .
+
 	# cp binary to local file 
 	docker run -t luebken/build-stpl /bin/true
 	docker cp `docker ps -q -n=1`:/stplcli .
 	chmod 755 ./stplcli
+
 	# build final image
 	docker build --rm=true --tag=luebken/stpl  .
 
