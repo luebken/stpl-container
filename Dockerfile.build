@@ -1,0 +1,10 @@
+FROM golang
+
+ADD Makefile /
+WORKDIR /
+RUN make setup
+
+ADD . /go/src/github.com/luebken/stpl
+
+RUN make buildgo
+CMD ["/bin/bash"]

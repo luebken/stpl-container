@@ -4,6 +4,9 @@
 
 clone into $GOPATH/src/github.com/luebken/stpl
 
+    $ make builddocker
+    $ docker run luebken/stpl
+
 ## Run
 
 ### CLI
@@ -20,4 +23,5 @@ clone into $GOPATH/src/github.com/luebken/stpl
 
 ## Notes
 
-* Structure based on https://peter.bourgon.org/go-best-practices-2016/
+* Project structure based on https://peter.bourgon.org/go-best-practices-2016/
+* Docker build based on https://developer.atlassian.com/blog/2015/07/osx-static-golang-binaries-with-docker/
