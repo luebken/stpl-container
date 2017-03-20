@@ -1,5 +1,7 @@
 default: builddocker
 
+.PHONY: e2etests
+
 setup:
     #go get golang.org/x/oauth2
     #go get golang.org/x/oauth2/jwt
@@ -24,5 +26,9 @@ builddocker:
 	# build final image
 	docker build --rm=true --tag=luebken/stpl  .
 
-run:
+rundocker:
 	docker run luebken/stpl
+
+# written with https://github.com/sstephenson/bats
+e2etests:
+	cd e2etests && bats e2etests.sh
