@@ -10,7 +10,7 @@ setup:
 # build go binary
 # gets called within docker build
 buildgo:
-	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o stplcli ./go/src/github.com/luebken/stpl/cmd/stplcli
+	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o stplsrv ./go/src/github.com/luebken/stpl/cmd/stplsrv
 
 # build docker 
 builddocker:
@@ -20,8 +20,8 @@ builddocker:
 
 	# cp binary to local file 
 	docker run -t luebken/build-stpl /bin/true
-	docker cp `docker ps -q -n=1`:/stplcli .
-	chmod 755 ./stplcli
+	docker cp `docker ps -q -n=1`:/stplsrv .
+	chmod 755 ./stplsrv
 
 	# build final image
 	docker build --rm=true --tag=luebken/stpl  .

@@ -1,3 +1,4 @@
 FROM scratch
-ADD stplcli /
-CMD ["/stplcli"]
+ADD stplsrv /
+EXPOSE 8080
+CMD ["/stplsrv"]
