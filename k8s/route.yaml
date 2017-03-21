@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: stpl-route
+spec:
+  to:
+    kind: Service
+    name: stpl

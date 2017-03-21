@@ -21,12 +21,21 @@ clone into $GOPATH/src/github.com/luebken/stpl
 
 ### MiniKube
 
+    $ minikube start --vm-driver=xhyve
     $ eval $(minikube docker-env)
-    $ make dockerbuild
+    $ make builddocker
     $ kubectl create -f k8s/deployment.yaml
-    $ kubectl expose deployment stpl --type=NodePort
+    $ kubectl create -f k8s/service.yaml
     $ curl -X POST -d @e2etests/example-1-pom.xml $(minikube service stpl --url)/analytics
 
+### MiniShift
+
+    $ eval $(minishift docker-env)
+    $ make builddocker
+    $ oc create -f k8s/deployment.yaml
+    $ oc create -f k8s/service.yaml
+    $ oc create -f k8s/route.yaml
+    $ curl -X POST -d @e2etests/example-1-pom.xml $(oc get route -o=jsonpath='{.items[0].spec.host}')/analytics
 
 
 ## Notes
