@@ -19,6 +19,14 @@ clone into $GOPATH/src/github.com/luebken/stpl
     $ go run cmd/stplsrv/main.go
     $ go install github.com/luebken/stpl/cmd/stplsrv
 
+### MiniKube
+
+    $ eval $(minikube docker-env)
+    $ make dockerbuild
+    $ kubectl create -f k8s/deployment.yaml
+    $ kubectl expose deployment stpl --type=NodePort
+    $ curl -X POST -d @e2etests/example-1-pom.xml $(minikube service stpl --url)/analytics
+
 
 
 ## Notes
