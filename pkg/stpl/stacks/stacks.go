@@ -10,7 +10,18 @@ type dependency struct {
 	Version string
 }
 
-func Stacks() []Stack {
+func (s Stack) containsDependencyName(name string) (bool, dependency) {
+	for _, d := range s.Dependencies {
+		if d.Name == name {
+			return true, d
+		}
+	}
+	return false, dependency{}
+}
+
+// ---
+
+func AllStacks() []Stack {
 	return stacks
 }
 
@@ -25,11 +36,11 @@ var vertxStackBareWeb = Stack{
 			Version: "3.4.1",
 		},
 		dependency{
-			Name:    "vertx-jdbc-client",
+			Name:    "io.vertx:vertx-jdbc-client",
 			Version: "3.4.1",
 		},
 		dependency{
-			Name:    "vertx-rx-java",
+			Name:    "io.vertx:vertx-rx-java",
 			Version: "3.4.1",
 		},
 		dependency{
