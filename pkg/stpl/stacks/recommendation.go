@@ -6,51 +6,45 @@ import (
 	"github.com/luebken/stpl/pkg/stpl/maven"
 )
 
-type Advices []Advice
+type Recommendations []Recommendation
 
-func (slice Advices) Len() int {
-	return len(slice)
+func (slice Recommendations) Len() int { return len(slice) }
+
+func (slice Recommendations) Less(i, j int) bool { return slice[i].Similarity < slice[j].Similarity }
+
+func (slice Recommendations) Swap(i, j int) { slice[i], slice[j] = slice[j], slice[i] }
+
+type Recommendation struct {
+	Similarity          float32
+	ReferenceStack      ReferenceStack
+	RecommendationItems []RecommendationItem
 }
 
-func (slice Advices) Less(i, j int) bool {
-	return slice[i].Similarity < slice[j].Similarity
-}
-
-func (slice Advices) Swap(i, j int) {
-	slice[i], slice[j] = slice[j], slice[i]
-}
-
-type Advice struct {
-	Similarity     float32
-	ReferenceStack ReferenceStack
-	AdviceItems    []AdviceItem
-}
-
-type AdviceItem struct {
+type RecommendationItem struct {
 	InputDependency       string
 	RecommendedDependency string
 }
 
-func GetAdvice(project maven.Project) Advice {
+func GetRecommendation(project maven.Project) Recommendation {
 
-	advices := []Advice{}
+	advices := []Recommendation{}
 
 	for _, stack := range AllReferenceStacks() {
 		similarity := calculateSimilarity(project, stack)
 		if similarity > 0 {
-			items := calculateAdviceItems(project, stack)
-			advice := Advice{Similarity: similarity, ReferenceStack: stack, AdviceItems: items}
+			items := calculateRecommendationItems(project, stack)
+			advice := Recommendation{Similarity: similarity, ReferenceStack: stack, RecommendationItems: items}
 			advices = append(advices, advice)
 		}
 	}
 
-	as := Advices(advices)
+	as := Recommendations(advices)
 	sort.Sort(sort.Reverse(as))
 
 	if len(as) > 0 {
 		return advices[0]
 	}
-	return Advice{}
+	return Recommendation{}
 }
 
 func calculateSimilarity(project maven.Project, stack ReferenceStack) float32 {
@@ -64,8 +58,9 @@ func calculateSimilarity(project maven.Project, stack ReferenceStack) float32 {
 
 	return float32(nrOfSameDependencies) / float32(len(project.Dependencies.Dependencies))
 }
-func calculateAdviceItems(project maven.Project, stack ReferenceStack) []AdviceItem {
-	items := []AdviceItem{}
+
+func calculateRecommendationItems(project maven.Project, stack ReferenceStack) []RecommendationItem {
+	items := []RecommendationItem{}
 
 	for _, mavenDependecy := range project.Dependencies.Dependencies {
 		mavenDependencyName := mavenDependecy.GroupID + ":" + mavenDependecy.ArtifactID
@@ -74,9 +69,10 @@ func calculateAdviceItems(project maven.Project, stack ReferenceStack) []AdviceI
 		// recommend switching version
 		if contains {
 			if mavenDependecy.Version != dep.Version {
-				items = append(items, AdviceItem{
+				items = append(items, RecommendationItem{
 					InputDependency:       mavenDependencyName + ":" + mavenDependecy.Version,
-					RecommendedDependency: dep.Name + ":" + dep.Version})
+					RecommendedDependency: dep.Name + ":" + dep.Version,
+				})
 			}
 		}
 	}

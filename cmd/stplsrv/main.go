@@ -13,12 +13,12 @@ import (
 
 func main() {
 	println("stplsrv listening on :8080")
-	http.HandleFunc("/advice", getAdvice)
+	http.HandleFunc("/recommendation", getRecommendation)
 	http.HandleFunc("/referencestacks", getReferenceStacks)
 	http.ListenAndServe(":8080", nil)
 }
 
-func getAdvice(w http.ResponseWriter, req *http.Request) {
+func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 
 	body, err := ioutil.ReadAll(req.Body)
@@ -27,7 +27,7 @@ func getAdvice(w http.ResponseWriter, req *http.Request) {
 	}
 	projects := maven.Unmarshal(body)
 
-	advice := stacks.GetAdvice(projects[0])
+	advice := stacks.GetRecommendation(projects[0])
 	b, err := json.Marshal(advice)
 	if err != nil {
 		fmt.Println(err)
