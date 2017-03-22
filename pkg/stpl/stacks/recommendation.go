@@ -33,7 +33,11 @@ func GetRecommendation(project maven.Project) Recommendation {
 		similarity := calculateSimilarity(project, stack)
 		if similarity > 0 {
 			items := calculateRecommendationItems(project, stack)
-			advice := Recommendation{Similarity: similarity, ReferenceStack: stack, RecommendationItems: items}
+			advice := Recommendation{
+				Similarity:          similarity,
+				ReferenceStack:      stack,
+				RecommendationItems: items,
+			}
 			advices = append(advices, advice)
 		}
 	}

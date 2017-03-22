@@ -9,15 +9,14 @@ clone into $GOPATH/src/github.com/luebken/stpl
 
 ## Run
 
-### CLI
-
-    $ go run cmd/stplcli/main.go
-    $ go install github.com/luebken/stpl/cmd/stplcli
-
 ### Server
 
     $ go run cmd/stplsrv/main.go
     $ go install github.com/luebken/stpl/cmd/stplsrv
+
+### Test
+
+    $ go test github.com/luebken/stpl/pkg/stpl/stacks
 
 ### MiniKube
 
