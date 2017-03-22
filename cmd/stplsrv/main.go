@@ -14,7 +14,7 @@ import (
 func main() {
 	println("stplsrv listening on :8080")
 	http.HandleFunc("/advice", getAdvice)
-	http.HandleFunc("/stacks", getStacks)
+	http.HandleFunc("/referencestacks", getReferenceStacks)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -37,10 +37,10 @@ func getAdvice(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "%v\n", string(b))
 }
 
-func getStacks(w http.ResponseWriter, req *http.Request) {
+func getReferenceStacks(w http.ResponseWriter, req *http.Request) {
 	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 
-	stacks := stacks.AllStacks()
+	stacks := stacks.AllReferenceStacks()
 	b, err := json.Marshal(stacks)
 	if err != nil {
 		fmt.Println(err)

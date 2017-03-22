@@ -21,9 +21,9 @@ func (slice Advices) Swap(i, j int) {
 }
 
 type Advice struct {
-	Similarity  float32
-	Stack       Stack
-	AdviceItems []AdviceItem
+	Similarity     float32
+	ReferenceStack ReferenceStack
+	AdviceItems    []AdviceItem
 }
 
 type AdviceItem struct {
@@ -35,11 +35,11 @@ func GetAdvice(project maven.Project) Advice {
 
 	advices := []Advice{}
 
-	for _, stack := range AllStacks() {
+	for _, stack := range AllReferenceStacks() {
 		similarity := calculateSimilarity(project, stack)
 		if similarity > 0 {
 			items := calculateAdviceItems(project, stack)
-			advice := Advice{Similarity: similarity, Stack: stack, AdviceItems: items}
+			advice := Advice{Similarity: similarity, ReferenceStack: stack, AdviceItems: items}
 			advices = append(advices, advice)
 		}
 	}
@@ -53,7 +53,7 @@ func GetAdvice(project maven.Project) Advice {
 	return Advice{}
 }
 
-func calculateSimilarity(project maven.Project, stack Stack) float32 {
+func calculateSimilarity(project maven.Project, stack ReferenceStack) float32 {
 	nrOfSameDependencies := 0
 	for _, mavenDependecy := range project.Dependencies.Dependencies {
 		contains, _ := stack.containsDependencyName(mavenDependecy.GroupID + ":" + mavenDependecy.ArtifactID)
@@ -64,7 +64,7 @@ func calculateSimilarity(project maven.Project, stack Stack) float32 {
 
 	return float32(nrOfSameDependencies) / float32(len(project.Dependencies.Dependencies))
 }
-func calculateAdviceItems(project maven.Project, stack Stack) []AdviceItem {
+func calculateAdviceItems(project maven.Project, stack ReferenceStack) []AdviceItem {
 	items := []AdviceItem{}
 
 	for _, mavenDependecy := range project.Dependencies.Dependencies {
