@@ -28,7 +28,3 @@ builddocker:
 
 rundocker:
 	docker run luebken/stpl
-
-# written with https://github.com/sstephenson/bats
-e2etests:
-	cd e2etests && bats e2etests.sh
