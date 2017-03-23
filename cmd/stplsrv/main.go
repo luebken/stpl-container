@@ -12,6 +12,9 @@ import (
 )
 
 func main() {
+
+	stacks.ImportReferenceStacks()
+
 	println("stplsrv listening on :8080")
 	http.HandleFunc("/recommendation", getRecommendation)
 	http.HandleFunc("/referencestacks", getReferenceStacks)

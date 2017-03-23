@@ -21,8 +21,8 @@ type Recommendation struct {
 }
 
 type RecommendationItem struct {
-	InputDependency       string
-	RecommendedDependency string
+	InputDependency       Dependency
+	RecommendedDependency Dependency
 }
 
 func GetRecommendation(project maven.Project) Recommendation {
@@ -54,7 +54,7 @@ func GetRecommendation(project maven.Project) Recommendation {
 func calculateSimilarity(project maven.Project, stack ReferenceStack) float32 {
 	nrOfSameDependencies := 0
 	for _, mavenDependecy := range project.Dependencies.Dependencies {
-		contains, _ := stack.containsDependencyName(mavenDependecy.GroupID + ":" + mavenDependecy.ArtifactID)
+		contains, _ := stack.containsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
 		if contains {
 			nrOfSameDependencies++
 		}
@@ -63,19 +63,18 @@ func calculateSimilarity(project maven.Project, stack ReferenceStack) float32 {
 	return float32(nrOfSameDependencies) / float32(len(project.Dependencies.Dependencies))
 }
 
-func calculateRecommendationItems(project maven.Project, stack ReferenceStack) []RecommendationItem {
+func calculateRecommendationItems(project maven.Project, referenceStack ReferenceStack) []RecommendationItem {
 	items := []RecommendationItem{}
 
 	for _, mavenDependecy := range project.Dependencies.Dependencies {
-		mavenDependencyName := mavenDependecy.GroupID + ":" + mavenDependecy.ArtifactID
-		contains, dep := stack.containsDependencyName(mavenDependencyName)
+		contains, dep := referenceStack.containsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
 
 		// recommend switching version
 		if contains {
 			if mavenDependecy.Version != dep.Version {
 				items = append(items, RecommendationItem{
-					InputDependency:       mavenDependencyName + ":" + mavenDependecy.Version,
-					RecommendedDependency: dep.Name + ":" + dep.Version,
+					InputDependency:       Dependency{GroupID: mavenDependecy.GroupID, ArtefactID: mavenDependecy.ArtifactID, Version: mavenDependecy.Version},
+					RecommendedDependency: Dependency{GroupID: dep.GroupID, ArtefactID: dep.ArtefactID, Version: dep.Version},
 				})
 			}
 		}
