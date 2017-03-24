@@ -1,6 +1,7 @@
 package stacks
 
 import (
+	"math"
 	"sort"
 
 	"github.com/luebken/stpl/pkg/stpl/maven"
@@ -15,7 +16,7 @@ func (slice Recommendations) Less(i, j int) bool { return slice[i].Similarity < 
 func (slice Recommendations) Swap(i, j int) { slice[i], slice[j] = slice[j], slice[i] }
 
 type Recommendation struct {
-	Similarity          float32
+	Similarity          float64
 	ReferenceStack      ReferenceStack
 	RecommendationItems []RecommendationItem
 }
@@ -51,16 +52,23 @@ func GetRecommendation(project maven.Project) Recommendation {
 	return Recommendation{}
 }
 
-func calculateSimilarity(project maven.Project, stack ReferenceStack) float32 {
-	nrOfSameDependencies := 0
-	for _, mavenDependecy := range project.Dependencies.Dependencies {
-		contains, _ := stack.containsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
+func calculateSimilarity(input maven.Project, reference ReferenceStack) float64 {
+	lenInputDeps := float64(len(input.Dependencies.Dependencies))
+	lenReferenceDeps := float64(len(reference.Dependencies))
+	maxLenDependencies := math.Max(lenInputDeps, lenReferenceDeps)
+
+	intersect := []Dependency{}
+
+	for _, mavenDependecy := range input.Dependencies.Dependencies {
+		contains, _ := reference.containsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
+
 		if contains {
-			nrOfSameDependencies++
+			intersect = append(intersect, Dependency{GroupID: mavenDependecy.GroupID, ArtefactID: mavenDependecy.ArtifactID})
 		}
 	}
 
-	return float32(nrOfSameDependencies) / float32(len(project.Dependencies.Dependencies))
+	nrOfSameDependencies := float64(len(intersect))
+	return nrOfSameDependencies / maxLenDependencies
 }
 
 func calculateRecommendationItems(project maven.Project, referenceStack ReferenceStack) []RecommendationItem {
