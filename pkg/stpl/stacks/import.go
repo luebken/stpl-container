@@ -63,7 +63,7 @@ var yamls = []string{
 }
 
 var vertxstackbareweb = `
-name: vertx-stack-bare-web
+name: Vert.x Bare Web
 description: A bare Vert.x stack for writing web applications.
 dependencies: 
 - io.vertx:vertx-core:3.4.1
@@ -75,7 +75,7 @@ dependencies:
 - io.vertx:vertx-web:3.4.1
 `
 var vertxstackbaremicroservice = `
-name: vertx-stack-bare-microservice
+name: Vert.x Bare Microservice
 description: A bare Vert.x stack for writing Rest based microservices.
 dependencies: 
 - io.vertx:vertx-circuit-breaker:3.4.1
@@ -89,7 +89,7 @@ dependencies:
 `
 
 var vertxstackbaremicroservicegrpc = `
-name: vertx-stack-bare-microservice-grpc
+name: Vert.x Bare GRPC
 description: A bare Vert.x stack for writing gRPC based microservices.
 dependencies: 
 - io.vertx:vertx-circuit-breaker:3.4.1
@@ -102,7 +102,7 @@ dependencies:
 `
 
 var vertxstackbareopenshift = `
-name: vertx-stack-bare-openshift
+name: Vert.x Bare OpenShift
 description: A bare Vert.x stack for writing OpenShift applications.
 dependencies: 
 - io.vertx:vertx-config-kubernetes-configmap:3.4.1
@@ -118,7 +118,7 @@ dependencies:
 `
 
 var vertxstackfullweb = `
-name: vertx-stack-full-web
+name: Vert.x Full Web
 description: A full Vert.x stack for writing production ready web application.
 dependencies:
 - ch.qos.logback:logback-classic:1.2.1
@@ -143,7 +143,7 @@ dependencies:
 `
 
 var vertxstackfullwebopenshift = `
-name:  vertx-stack-full-web-openshift 
+name:  Vert.x Full OpenShift 
 description: A full Vert.x stack for writing production ready web application on OpenShift
 dependencies: 
 - ch.qos.logback:logback-classic:1.2.1
