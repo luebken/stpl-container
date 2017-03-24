@@ -4,9 +4,12 @@ import (
 	"math"
 	"sort"
 
+	"fmt"
+
 	"github.com/luebken/stpl/pkg/stpl/maven"
 )
 
+//Recommendations a list of possible recommendations per project. Sortable by similarity.
 type Recommendations []Recommendation
 
 func (slice Recommendations) Len() int { return len(slice) }
@@ -15,15 +18,18 @@ func (slice Recommendations) Less(i, j int) bool { return slice[i].Similarity < 
 
 func (slice Recommendations) Swap(i, j int) { slice[i], slice[j] = slice[j], slice[i] }
 
+// Recommendation A single recommendation including the reference stack and indiviual recommendation items
 type Recommendation struct {
 	Similarity          float64
 	ReferenceStack      ReferenceStack
 	RecommendationItems []RecommendationItem
 }
 
+// RecommendationItem shows InputDependency, RecommendedDependency and a RecommendationText
 type RecommendationItem struct {
 	InputDependency       Dependency
 	RecommendedDependency Dependency
+	RecommendationText    string
 }
 
 func GetRecommendation(project maven.Project) Recommendation {
@@ -74,15 +80,26 @@ func calculateSimilarity(input maven.Project, reference ReferenceStack) float64 
 func calculateRecommendationItems(project maven.Project, referenceStack ReferenceStack) []RecommendationItem {
 	items := []RecommendationItem{}
 
-	for _, mavenDependecy := range project.Dependencies.Dependencies {
-		contains, dep := referenceStack.containsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
+	for _, mavenDep := range project.Dependencies.Dependencies {
+		contains, referenceDep := referenceStack.containsDependencyName(mavenDep.GroupID, mavenDep.ArtifactID)
 
 		// recommend switching version
 		if contains {
-			if mavenDependecy.Version != dep.Version {
+			if mavenDep.Version != referenceDep.Version {
+				inputDependency := Dependency{GroupID: mavenDep.GroupID, ArtefactID: mavenDep.ArtifactID, Version: mavenDep.Version}
+				recommendedDependency := Dependency{GroupID: referenceDep.GroupID, ArtefactID: referenceDep.ArtefactID, Version: referenceDep.Version}
+				//TODO figure out semver and than upgrade / downgrade plus severity
+				recommendedText := fmt.Sprintf("Recommended: Upgrade %v:%v to %v. %v applications include a newer version of %v.",
+					mavenDep.GroupID,
+					mavenDep.ArtifactID,
+					referenceDep.Version,
+					referenceStack.Name,
+					mavenDep.ArtifactID,
+				)
 				items = append(items, RecommendationItem{
-					InputDependency:       Dependency{GroupID: mavenDependecy.GroupID, ArtefactID: mavenDependecy.ArtifactID, Version: mavenDependecy.Version},
-					RecommendedDependency: Dependency{GroupID: dep.GroupID, ArtefactID: dep.ArtefactID, Version: dep.Version},
+					InputDependency:       inputDependency,
+					RecommendedDependency: recommendedDependency,
+					RecommendationText:    recommendedText,
 				})
 			}
 		}
