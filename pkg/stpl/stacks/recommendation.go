@@ -85,17 +85,31 @@ func calculateRecommendationItems(project maven.Project, referenceStack Referenc
 
 		// recommend switching version
 		if contains {
-			if mavenDep.Version != referenceDep.Version {
-				inputDependency := Dependency{GroupID: mavenDep.GroupID, ArtefactID: mavenDep.ArtifactID, Version: mavenDep.Version}
-				recommendedDependency := Dependency{GroupID: referenceDep.GroupID, ArtefactID: referenceDep.ArtefactID, Version: referenceDep.Version}
-				//TODO figure out semver and than upgrade / downgrade plus severity
-				recommendedText := fmt.Sprintf("Recommended: Upgrade %v:%v to %v. %v applications include a newer version of %v.",
-					mavenDep.GroupID,
-					mavenDep.ArtifactID,
-					referenceDep.Version,
-					referenceStack.Name,
-					mavenDep.ArtifactID,
-				)
+			if mavenDep.VersionString != referenceDep.VersionString {
+				inputDependency := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
+				recommendedDependency := NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
+				recommendedText := ""
+				// Upgrade
+				if recommendedDependency.SemVer.GT(inputDependency.SemVer) {
+					recommendedText = fmt.Sprintf("Recommended: Upgrade %v:%v to %v. %v applications include a newer version of %v.",
+						mavenDep.GroupID,
+						mavenDep.ArtifactID,
+						referenceDep.VersionString,
+						referenceStack.Name,
+						mavenDep.ArtifactID,
+					)
+				}
+				// Downgrade
+				if recommendedDependency.SemVer.LT(inputDependency.SemVer) {
+					recommendedText = fmt.Sprintf("Recommended: Downgrade %v:%v to %v. %v applications include an older version of %v.",
+						mavenDep.GroupID,
+						mavenDep.ArtifactID,
+						referenceDep.VersionString,
+						referenceStack.Name,
+						mavenDep.ArtifactID,
+					)
+				}
+
 				items = append(items, RecommendationItem{
 					InputDependency:       inputDependency,
 					RecommendedDependency: recommendedDependency,

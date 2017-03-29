@@ -4,6 +4,7 @@ import (
 	"log"
 	"regexp"
 
+	"github.com/blang/semver"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -15,10 +16,22 @@ type ReferenceStack struct {
 	DependenciesRaw []string     `yaml:"dependencies" json:"-"`
 	Dependencies    []Dependency `yaml:"-"`
 }
+
 type Dependency struct {
-	GroupID    string
-	ArtefactID string
-	Version    string
+	GroupID       string
+	ArtefactID    string
+	VersionString string
+	SemVer        semver.Version
+}
+
+func NewDependency(groupid string, artefactid string, versionString string) Dependency {
+	version, err := semver.ParseTolerant(versionString)
+	if err != nil {
+		log.Printf("Error semver parsing %v %v", versionString, err)
+	}
+
+	d2 := Dependency{GroupID: groupid, ArtefactID: artefactid, VersionString: versionString, SemVer: version}
+	return d2
 }
 
 func (s ReferenceStack) containsDependencyName(groupid string, artefactid string) (bool, Dependency) {
@@ -44,7 +57,8 @@ func ImportReferenceStacks() {
 		for _, d := range s.DependenciesRaw {
 			re, _ := regexp.Compile("([\\w\\.\\-]*):([\\w\\.\\-]*):([\\w\\.\\-]*)")
 			result := re.FindAllStringSubmatch(d, -1)
-			d2 := Dependency{GroupID: result[0][1], ArtefactID: result[0][2], Version: result[0][3]}
+			versionString := result[0][3]
+			d2 := NewDependency(result[0][1], result[0][2], versionString)
 			s.Dependencies = append(s.Dependencies, d2)
 		}
 		stacks = append(stacks, s)

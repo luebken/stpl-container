@@ -1,6 +1,11 @@
 package maven
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"log"
+
+	"github.com/blang/semver"
+)
 
 //Projects where a pom.xml has <projects> as top level
 type Projects struct {
@@ -22,10 +27,11 @@ type dependencies struct {
 	Dependencies []dependency `xml:"dependency"`
 }
 type dependency struct {
-	GroupID    string `xml:"groupId"`
-	ArtifactID string `xml:"artifactId"`
-	Version    string `xml:"version"`
-	Scope      string `xml:"scope"`
+	GroupID       string `xml:"groupId"`
+	ArtifactID    string `xml:"artifactId"`
+	VersionString string `xml:"version"`
+	Scope         string `xml:"scope"`
+	SemVer        semver.Version
 }
 
 // Unmarshal pom.xmls with top level <projects> or <project>
@@ -46,4 +52,17 @@ func Unmarshal(data []byte) []Project {
 		result = append(result, p)
 	}
 	return result
+}
+
+func ParseSemVers(projects []Project) {
+	for _, project := range projects {
+		for _, dependency := range project.Dependencies.Dependencies {
+			version, err := semver.ParseTolerant(dependency.VersionString)
+			if err != nil {
+				log.Printf("Error semver parsing %v %v", dependency.VersionString, err)
+			} else {
+				dependency.SemVer = version
+			}
+		}
+	}
 }
