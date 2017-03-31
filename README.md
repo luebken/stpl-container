@@ -1,22 +1,16 @@
 # Stpl
 
-## Install
+Stpl (short for stapel, loosely German for stack) is a simplistic prototype to test and evaluate stack analysis.
 
-clone into $GOPATH/src/github.com/luebken/stpl
+## Getting started
 
-    $ make builddocker
-    $ docker run luebken/stpl
+    # clone into $GOPATH/src/github.com/luebken/stpl
+    $ make go-get
+    $ make go-run-server
+    # open new terminal
+    $ make e2etests
 
-## Run
-
-### Server
-
-    $ go run cmd/stplsrv/main.go
-    $ go install github.com/luebken/stpl/cmd/stplsrv
-
-### Test
-
-    $ go test github.com/luebken/stpl/pkg/stpl/stacks
+## Deployment
 
 ### MiniKube
 
