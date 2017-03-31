@@ -1,19 +1,22 @@
-default: builddocker
-
 .PHONY: e2etests
 
-setup:
-    #go get golang.org/x/oauth2
-    #go get golang.org/x/oauth2/jwt
-    #go get google.golang.org/api/analytics/v3
+# run `make` to see options
+.DEFAULT_GOAL := help
 
-# build go binary
-# gets called within docker build
-buildgo:
-	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o stplsrv ./go/src/github.com/luebken/stpl/cmd/stplsrv
+go-get: ## get go dependencies
+	go get github.com/blang/semver
+	go get gopkg.in/yaml.v2
 
-# build docker 
-builddocker:
+go-run-server: ## runs the server
+	go run cmd/stplsrv/main.go
+
+go-test:
+	go test github.com/luebken/stpl/pkg/stpl/stacks
+
+e2etests: ## run the e2etests
+	e2etests/e2etests.sh
+
+docker-build: ## builds a docker image (luebken/stpl)
 
 	# build builder image which calls `make buildgo`
 	docker build --no-cache -t luebken/build-stpl -f ./Dockerfile.build .
@@ -26,5 +29,15 @@ builddocker:
 	# build final image
 	docker build --rm=true --tag=luebken/stpl  .
 
-rundocker:
+docker-run: build-docker ## runs stpl from docker
 	docker run luebken/stpl
+
+# build go binary
+# gets called within docker build
+buildgo:
+	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o stplsrv ./go/src/github.com/luebken/stpl/cmd/stplsrv
+
+
+# via http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
