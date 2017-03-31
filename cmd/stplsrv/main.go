@@ -29,7 +29,6 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 	projects := maven.Unmarshal(body)
-	maven.ParseSemVers(projects)
 
 	advice := stacks.GetRecommendation(projects[0])
 	b, err := json.Marshal(advice)

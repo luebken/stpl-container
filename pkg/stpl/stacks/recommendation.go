@@ -1,6 +1,7 @@
 package stacks
 
 import (
+	"log"
 	"math"
 	"sort"
 
@@ -80,15 +81,23 @@ func calculateSimilarity(input maven.Project, reference ReferenceStack) float64 
 func calculateRecommendationItems(project maven.Project, referenceStack ReferenceStack) []RecommendationItem {
 	items := []RecommendationItem{}
 
-	for _, mavenDep := range project.Dependencies.Dependencies {
-		contains, referenceDep := referenceStack.containsDependencyName(mavenDep.GroupID, mavenDep.ArtifactID)
+	for _, referenceDep := range referenceStack.Dependencies {
+
+		mavenContainsDependency, mavenDep := project.ContainsDependencyName(referenceDep.GroupID, referenceDep.ArtefactID)
+
+		inputDependency, err := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
+		if err != nil {
+			// log.Printf("Error inputDependency artefact: '%v' %v", mavenDep.ArtifactID, err)
+		}
+		recommendedDependency, err := NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
+		if err != nil {
+			log.Printf("Error recommendedDependency %v", err)
+		}
+		recommendedText := ""
 
 		// recommend switching version
-		if contains {
+		if mavenContainsDependency {
 			if mavenDep.VersionString != referenceDep.VersionString {
-				inputDependency := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
-				recommendedDependency := NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
-				recommendedText := ""
 				// Upgrade
 				if recommendedDependency.SemVer.GT(inputDependency.SemVer) {
 					recommendedText = fmt.Sprintf("Recommended: Upgrade %v:%v to %v. %v applications include a newer version of %v.",
@@ -110,12 +119,21 @@ func calculateRecommendationItems(project maven.Project, referenceStack Referenc
 					)
 				}
 
-				items = append(items, RecommendationItem{
-					InputDependency:       inputDependency,
-					RecommendedDependency: recommendedDependency,
-					RecommendationText:    recommendedText,
-				})
 			}
+		} else { // recommend add dependency
+			recommendedText = fmt.Sprintf("Recommended: Add %v. %v applications include %v.",
+				referenceDep.VersionString,
+				referenceStack.Name,
+				referenceDep.ArtefactID,
+			)
+		}
+
+		if recommendedText != "" {
+			items = append(items, RecommendationItem{
+				InputDependency:       inputDependency,
+				RecommendedDependency: recommendedDependency,
+				RecommendationText:    recommendedText,
+			})
 		}
 	}
 

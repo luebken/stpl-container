@@ -1,6 +1,7 @@
 package stacks
 
 import (
+	"fmt"
 	"log"
 	"regexp"
 
@@ -24,14 +25,15 @@ type Dependency struct {
 	SemVer        semver.Version
 }
 
-func NewDependency(groupid string, artefactid string, versionString string) Dependency {
+func NewDependency(groupid string, artefactid string, versionString string) (Dependency, error) {
 	version, err := semver.ParseTolerant(versionString)
 	if err != nil {
-		log.Printf("Error semver parsing %v %v", versionString, err)
+		err2 := fmt.Errorf("Error semver parsing %v %v", versionString, err)
+		return Dependency{}, err2
 	}
 
 	d2 := Dependency{GroupID: groupid, ArtefactID: artefactid, VersionString: versionString, SemVer: version}
-	return d2
+	return d2, nil
 }
 
 func (s ReferenceStack) containsDependencyName(groupid string, artefactid string) (bool, Dependency) {
@@ -58,8 +60,12 @@ func ImportReferenceStacks() {
 			re, _ := regexp.Compile("([\\w\\.\\-]*):([\\w\\.\\-]*):([\\w\\.\\-]*)")
 			result := re.FindAllStringSubmatch(d, -1)
 			versionString := result[0][3]
-			d2 := NewDependency(result[0][1], result[0][2], versionString)
-			s.Dependencies = append(s.Dependencies, d2)
+			d2, err := NewDependency(result[0][1], result[0][2], versionString)
+			if err != nil {
+				log.Printf("Error importing %v", err)
+			} else {
+				s.Dependencies = append(s.Dependencies, d2)
+			}
 		}
 		stacks = append(stacks, s)
 	}
