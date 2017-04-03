@@ -4,6 +4,16 @@ Stpl (short for stapel, loosely German for stack) is a simplistic prototype to t
 
 ## Getting started
 
+### Run pre-build Docker Image
+
+    # run container
+    $ docker run -p 8088:8088 docker-registry.stage.engineering.redhat.com/luebken/stpl
+    # run e2etests
+    $ git clone git@gitlab.cee.redhat.com:mluebken/stpl.git
+    $ cd stpl
+    $ make e2etests
+
+### Run from source
     # clone into $GOPATH/src/github.com/luebken/stpl
     $ make go-get
     $ make go-run-server
@@ -14,7 +24,7 @@ Stpl (short for stapel, loosely German for stack) is a simplistic prototype to t
 
 ### MiniKube
 
-    $ minikube start --vm-driver=xhyve
+    $ minikube start --vm-driver=xhyve --insecure-registry=docker-registry.stage.engineering.redhat.com
     $ eval $(minikube docker-env)
     $ make builddocker
     $ kubectl create -f k8s/deployment.yaml
