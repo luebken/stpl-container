@@ -6,6 +6,8 @@
 go-get: ## get go dependencies
 	go get github.com/blang/semver
 	go get gopkg.in/yaml.v2
+	go get github.com/Sirupsen/logrus
+
 
 go-run-server: ## runs the server
 	go run cmd/stplsrv/main.go

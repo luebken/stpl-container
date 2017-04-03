@@ -1,7 +1,8 @@
 package stacks
 
 import (
-	"log"
+	log "github.com/Sirupsen/logrus"
+
 	"math"
 	"sort"
 

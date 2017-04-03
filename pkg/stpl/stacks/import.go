@@ -2,9 +2,9 @@ package stacks
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/blang/semver"
 	yaml "gopkg.in/yaml.v2"
 )

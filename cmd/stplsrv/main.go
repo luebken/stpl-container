@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/luebken/stpl/pkg/stpl/maven"
 	"github.com/luebken/stpl/pkg/stpl/stacks"
