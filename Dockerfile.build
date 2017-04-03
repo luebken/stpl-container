@@ -2,9 +2,9 @@ FROM golang
 
 ADD Makefile /
 WORKDIR /
-RUN make setup
+RUN make go-get
 
 ADD . /go/src/github.com/luebken/stpl
 
-RUN make buildgo
+RUN make go-build
 CMD ["/bin/bash"]
