@@ -15,10 +15,10 @@ func main() {
 
 	stacks.ImportReferenceStacks()
 
-	println("stplsrv listening on :8080")
+	println("stplsrv listening on :8088")
 	http.HandleFunc("/recommendation", getRecommendation)
 	http.HandleFunc("/referencestacks", getReferenceStacks)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8088", nil)
 }
 
 func getRecommendation(w http.ResponseWriter, req *http.Request) {
