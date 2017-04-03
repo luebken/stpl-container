@@ -27,14 +27,14 @@ docker-build: ## builds a docker image (luebken/stpl)
 	chmod 755 ./stplsrv
 
 	# build final image
-	docker build --rm=true --tag=luebken/stpl  .
+	docker build --tag=docker-registry.stage.engineering.redhat.com/luebken/stpl .
 
-docker-run: build-docker ## runs stpl from docker
-	docker run luebken/stpl
+docker-run: docker-build ## runs stpl from docker
+	docker run -p 8088:8088 docker-registry.stage.engineering.redhat.com/luebken/stpl
 
 # build go binary
 # gets called within docker build
-buildgo:
+go-build:
 	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o stplsrv ./go/src/github.com/luebken/stpl/cmd/stplsrv
 
 
