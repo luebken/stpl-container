@@ -34,6 +34,10 @@ docker-build: ## builds a docker image (luebken/stpl)
 docker-run: docker-build ## runs stpl from docker
 	docker run -p 8088:8088 docker-registry.stage.engineering.redhat.com/luebken/stpl
 
+docker-push: docker-build
+	docker login -p ${DOCKER_REGISTRY_TOKEN}  -e unused -u unused docker-registry.stage.engineering.redhat.com
+	docker push docker-registry.stage.engineering.redhat.com/luebken/stpl
+
 # build go binary
 # gets called within docker build
 go-build:

@@ -23,6 +23,12 @@ Stpl (short for stapel, loosely German for stack) is a simplistic prototype to t
 
 ## Deployment
 
+### Docker Registry
+
+    * Get a token at https://registry-console.stage.engineering.redhat.com/registry
+    $ export DOCKER_REGISTRY_TOKEN=<TOKEN>
+    $ make docker-push
+
 ### MiniKube
 
     $ minikube start --vm-driver=xhyve --insecure-registry=docker-registry.stage.engineering.redhat.com
