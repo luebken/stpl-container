@@ -33,7 +33,7 @@ type MavenDependency struct {
 	SemVer        semver.Version
 }
 
-func (p Project) ContainsDependencyName(groupid string, artifactid string) (bool, MavenDependency) {
+func (p Project) ContainsDependency(groupid string, artifactid string) (bool, MavenDependency) {
 	for _, d := range p.Dependencies.Dependencies {
 		if d.GroupID == groupid && d.ArtifactID == artifactid {
 			return true, d

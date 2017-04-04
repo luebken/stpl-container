@@ -1,8 +1,6 @@
 package stacks
 
 import (
-	log "github.com/Sirupsen/logrus"
-
 	"math"
 	"sort"
 
@@ -42,6 +40,7 @@ func GetRecommendation(project maven.Project) Recommendation {
 		similarity := calculateSimilarity(project, stack)
 		if similarity > 0 {
 			items := calculateRecommendationItems(project, stack)
+
 			advice := Recommendation{
 				Similarity:          similarity,
 				ReferenceStack:      stack,
@@ -79,26 +78,28 @@ func calculateSimilarity(input maven.Project, reference ReferenceStack) float64 
 	return nrOfSameDependencies / maxLenDependencies
 }
 
-func calculateRecommendationItems(project maven.Project, referenceStack ReferenceStack) []RecommendationItem {
+func calculateRecommendationItems(mavenProject maven.Project, referenceStack ReferenceStack) []RecommendationItem {
 	items := []RecommendationItem{}
 
 	for _, referenceDep := range referenceStack.Dependencies {
 
-		recommendedText := ""
+		inputContainsReferenceDependency, mavenDep := mavenProject.ContainsDependency(referenceDep.GroupID, referenceDep.ArtefactID)
+		recommendedText := "" // indicator if we want to recommend something
 		recommendedDependency, err := NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
 		if err != nil {
-			log.Printf("Error recommendedDependency %v", err)
+			// TODO figure out edge-cases
+			//log.Printf("Error recommendedDependency %v", err)
 		}
-		var inputDependency Dependency
-
-		mavenContainsDependency, mavenDep := project.ContainsDependencyName(referenceDep.GroupID, referenceDep.ArtefactID)
+		inputDependency, err := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
+		if err != nil {
+			// TODO figure out edge-cases
+			//log.Printf("Error inputDependency artefact: '%v' %v", mavenDep.ArtifactID, err)
+		}
 
 		// recommend switching version
-		if mavenContainsDependency {
-			inputDependency, err := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
-			if err != nil {
-				log.Printf("Error inputDependency artefact: '%v' %v", mavenDep.ArtifactID, err)
-			}
+		if inputContainsReferenceDependency {
+
+			// log.Printf("inputDependency %v\n", inputDependency)
 
 			if mavenDep.VersionString != referenceDep.VersionString {
 				// Upgrade
