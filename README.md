@@ -1,6 +1,6 @@
 # Stpl
 
-Stpl (short for stapel, loosely German for stack) is a simplistic prototype to test and evaluate stack analysis.
+Stpl (short for stapel, loosely German for stack) is a simplistic prototype to test and evaluate stack recommendations.
 
 ## Getting started
 
