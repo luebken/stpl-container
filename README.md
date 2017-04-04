@@ -6,9 +6,10 @@ Stpl (short for stapel, loosely German for stack) is a simplistic prototype to t
 
 ### Run pre-build Docker Image
 
-    # run container
+    # run container:
     $ docker run -p 8088:8088 docker-registry.stage.engineering.redhat.com/luebken/stpl
-    # run e2etests
+
+    # run e2etests:
     $ git clone git@gitlab.cee.redhat.com:mluebken/stpl.git
     $ cd stpl
     $ make e2etests
