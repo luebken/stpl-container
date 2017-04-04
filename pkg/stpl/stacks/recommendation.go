@@ -84,20 +84,22 @@ func calculateRecommendationItems(project maven.Project, referenceStack Referenc
 
 	for _, referenceDep := range referenceStack.Dependencies {
 
-		mavenContainsDependency, mavenDep := project.ContainsDependencyName(referenceDep.GroupID, referenceDep.ArtefactID)
-
-		inputDependency, err := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
-		if err != nil {
-			// log.Printf("Error inputDependency artefact: '%v' %v", mavenDep.ArtifactID, err)
-		}
+		recommendedText := ""
 		recommendedDependency, err := NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
 		if err != nil {
 			log.Printf("Error recommendedDependency %v", err)
 		}
-		recommendedText := ""
+		var inputDependency Dependency
+
+		mavenContainsDependency, mavenDep := project.ContainsDependencyName(referenceDep.GroupID, referenceDep.ArtefactID)
 
 		// recommend switching version
 		if mavenContainsDependency {
+			inputDependency, err := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
+			if err != nil {
+				log.Printf("Error inputDependency artefact: '%v' %v", mavenDep.ArtifactID, err)
+			}
+
 			if mavenDep.VersionString != referenceDep.VersionString {
 				// Upgrade
 				if recommendedDependency.SemVer.GT(inputDependency.SemVer) {
