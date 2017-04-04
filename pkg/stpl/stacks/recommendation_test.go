@@ -14,7 +14,7 @@ func TestEmptyProject(t *testing.T) {
 	}
 }
 
-func TestDowngradeDepdency(t *testing.T) {
+func TestAddDependency(t *testing.T) {
 
 	ImportReferenceStacks()
 
@@ -74,5 +74,8 @@ func TestDowngradeDepdency(t *testing.T) {
 	}
 	if len(r.RecommendationItems) != 1 {
 		t.Error("Expected 1 RecommendationItems")
+	}
+	if r.RecommendationItems[0].InputDependency.ArtefactID != "" {
+		t.Errorf("Expected valid InputDependency")
 	}
 }
