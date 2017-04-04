@@ -34,27 +34,28 @@ type RecommendationItem struct {
 
 func GetRecommendation(project maven.Project) Recommendation {
 
-	advices := []Recommendation{}
+	recommendations := []Recommendation{}
 
 	for _, stack := range AllReferenceStacks() {
 		similarity := calculateSimilarity(project, stack)
-		if similarity > 0 {
+
+		if similarity > 0.3 {
 			items := calculateRecommendationItems(project, stack)
 
-			advice := Recommendation{
+			r := Recommendation{
 				Similarity:          similarity,
 				ReferenceStack:      stack,
 				RecommendationItems: items,
 			}
-			advices = append(advices, advice)
+			recommendations = append(recommendations, r)
 		}
 	}
 
-	as := Recommendations(advices)
-	sort.Sort(sort.Reverse(as))
+	rs := Recommendations(recommendations)
+	sort.Sort(sort.Reverse(rs))
 
-	if len(as) > 0 {
-		return advices[0]
+	if len(rs) > 0 {
+		return recommendations[0]
 	}
 	return Recommendation{}
 }

@@ -1,25 +1,21 @@
 package stacks
 
 import (
+	"log"
 	"testing"
 
 	"github.com/luebken/stpl/pkg/stpl/maven"
 )
 
-func TestEmptyProject(t *testing.T) {
-	p := maven.Project{}
-	r := GetRecommendation(p)
-	if len(r.RecommendationItems) != 0 {
-		t.Error("Expected 0 RecommendationItems")
-	}
-}
+var p90 maven.Project
+var p30 maven.Project
 
-func TestAddDependency(t *testing.T) {
+func init() {
 
 	ImportReferenceStacks()
 
-	p := maven.Project{}
-	deps := []maven.MavenDependency{
+	p90 = maven.Project{}
+	deps90 := []maven.MavenDependency{
 		maven.MavenDependency{
 			GroupID:       "io.vertx",
 			ArtifactID:    "vertx-config-kubernetes-configmap",
@@ -66,9 +62,39 @@ func TestAddDependency(t *testing.T) {
 			VersionString: "3.4.1",
 		},
 	}
-	p.Dependencies.Dependencies = append(p.Dependencies.Dependencies, deps...)
+	p90.Dependencies.Dependencies = append(p90.Dependencies.Dependencies, deps90...)
 
+	p30 = maven.Project{}
+	deps30 := []maven.MavenDependency{
+		maven.MavenDependency{
+			GroupID:       "io.vertx",
+			ArtifactID:    "vertx-config-kubernetes-configmap",
+			VersionString: "3.4.1",
+		},
+		maven.MavenDependency{
+			GroupID:       "io.vertx",
+			ArtifactID:    "vertx-config-yaml",
+			VersionString: "3.4.1",
+		},
+		maven.MavenDependency{
+			GroupID:       "io.vertx",
+			ArtifactID:    "vertx-config",
+			VersionString: "3.4.1",
+		},
+	}
+	p30.Dependencies.Dependencies = append(p30.Dependencies.Dependencies, deps30...)
+}
+
+func TestEmptyProject(t *testing.T) {
+	p := maven.Project{}
 	r := GetRecommendation(p)
+	if len(r.RecommendationItems) != 0 {
+		t.Error("Expected 0 RecommendationItems")
+	}
+}
+
+func TestAddDependency(t *testing.T) {
+	r := GetRecommendation(p90)
 	if r.Similarity != 0.9 {
 		t.Errorf("Expected a similarity of 0.9. Got %v\n", r.Similarity)
 	}
@@ -77,5 +103,15 @@ func TestAddDependency(t *testing.T) {
 	}
 	if r.RecommendationItems[0].InputDependency.ArtefactID != "" {
 		t.Errorf("Expected valid InputDependency")
+	}
+}
+
+func TestToLittleSimilarity(t *testing.T) {
+
+	log.Printf("ping")
+
+	r := GetRecommendation(p30)
+	if len(r.RecommendationItems) != 0 {
+		t.Error("Expected 0 RecommendationItems")
 	}
 }
