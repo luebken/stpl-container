@@ -19,3 +19,9 @@ echo "Example 4: Two recommendations (Add / Downgrade)"
 printf "Similarity: "
 curl -s -X GET -d @e2etests/example-4-vertx-openshift-missing-and-new-dependency-effective-pom.xml localhost:8088/recommendation | jq .Similarity
 curl -s -X GET -d @e2etests/example-4-vertx-openshift-missing-and-new-dependency-effective-pom.xml localhost:8088/recommendation | jq .RecommendationItems
+
+# TODO discuss:
+echo "Example 5: No recommendations"
+printf "Similarity: "
+curl -s -X GET -d @e2etests/example-5-vertx-no-reference-stack-pom.xml localhost:8088/recommendation | jq .Similarity
+curl -s -X GET -d @e2etests/example-5-vertx-no-reference-stack-pom.xml localhost:8088/recommendation | jq .RecommendationItems
