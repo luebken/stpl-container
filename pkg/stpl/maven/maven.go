@@ -15,9 +15,11 @@ type Projects struct {
 type Project struct {
 	GroupID              string               `xml:"groupId"`
 	ArtifactID           string               `xml:"artifactId"`
+	Name                 string               `xml:"name"`
+	Scope                string               `xml:"scope"`
+	Description          string               `xml:"description"`
 	DependencyManagement dependencyManagement `xml:"dependencyManagement"`
 	Dependencies         dependencies         `xml:"dependencies"`
-	Description          string               `xml:"description"`
 }
 type dependencyManagement struct {
 	Dependencies dependencies `xml:"dependencies"`
