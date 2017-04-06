@@ -1,4 +1,4 @@
-package stacks
+package analysis
 
 import (
 	"math"
@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/luebken/stpl/pkg/stpl/maven"
+	"github.com/luebken/stpl/pkg/stpl/stack"
 )
 
 //Recommendations a list of possible recommendations per project. Sortable by similarity.
@@ -21,14 +22,14 @@ func (slice Recommendations) Swap(i, j int) { slice[i], slice[j] = slice[j], sli
 // Recommendation A single recommendation including the reference stack and indiviual recommendation items
 type Recommendation struct {
 	Similarity          float64
-	ReferenceStack      ReferenceStack
+	ReferenceStack      stack.ReferenceStack
 	RecommendationItems []RecommendationItem
 }
 
 // RecommendationItem shows InputDependency, RecommendedDependency and a RecommendationText
 type RecommendationItem struct {
-	InputDependency       Dependency
-	RecommendedDependency Dependency
+	InputDependency       stack.Dependency
+	RecommendedDependency stack.Dependency
 	RecommendationText    string
 }
 
@@ -36,7 +37,7 @@ func GetRecommendation(project maven.Project) Recommendation {
 
 	recommendations := []Recommendation{}
 
-	for _, stack := range AllReferenceStacks() {
+	for _, stack := range stack.AllReferenceStacks() {
 		similarity := calculateSimilarity(project, stack)
 
 		if similarity > 0.3 {
@@ -60,18 +61,18 @@ func GetRecommendation(project maven.Project) Recommendation {
 	return Recommendation{}
 }
 
-func calculateSimilarity(input maven.Project, reference ReferenceStack) float64 {
+func calculateSimilarity(input maven.Project, reference stack.ReferenceStack) float64 {
 	lenInputDeps := float64(len(input.Dependencies.Dependencies))
 	lenReferenceDeps := float64(len(reference.Dependencies))
 	maxLenDependencies := math.Max(lenInputDeps, lenReferenceDeps)
 
-	intersect := []Dependency{}
+	intersect := []stack.Dependency{}
 
 	for _, mavenDependecy := range input.Dependencies.Dependencies {
-		contains, _ := reference.containsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
+		contains, _ := reference.ContainsDependencyName(mavenDependecy.GroupID, mavenDependecy.ArtifactID)
 
 		if contains {
-			intersect = append(intersect, Dependency{GroupID: mavenDependecy.GroupID, ArtefactID: mavenDependecy.ArtifactID})
+			intersect = append(intersect, stack.Dependency{GroupID: mavenDependecy.GroupID, ArtefactID: mavenDependecy.ArtifactID})
 		}
 	}
 
@@ -79,19 +80,19 @@ func calculateSimilarity(input maven.Project, reference ReferenceStack) float64 
 	return nrOfSameDependencies / maxLenDependencies
 }
 
-func calculateRecommendationItems(mavenProject maven.Project, referenceStack ReferenceStack) []RecommendationItem {
+func calculateRecommendationItems(mavenProject maven.Project, referenceStack stack.ReferenceStack) []RecommendationItem {
 	items := []RecommendationItem{}
 
 	for _, referenceDep := range referenceStack.Dependencies {
 
 		inputContainsReferenceDependency, mavenDep := mavenProject.ContainsDependency(referenceDep.GroupID, referenceDep.ArtefactID)
 		recommendedText := "" // indicator if we want to recommend something
-		recommendedDependency, err := NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
+		recommendedDependency, err := stack.NewDependency(referenceDep.GroupID, referenceDep.ArtefactID, referenceDep.VersionString)
 		if err != nil {
 			// TODO figure out edge-cases
 			//log.Printf("Error recommendedDependency %v", err)
 		}
-		inputDependency, err := NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
+		inputDependency, err := stack.NewDependency(mavenDep.GroupID, mavenDep.ArtifactID, mavenDep.VersionString)
 		if err != nil {
 			// TODO figure out edge-cases
 			//log.Printf("Error inputDependency artefact: '%v' %v", mavenDep.ArtifactID, err)

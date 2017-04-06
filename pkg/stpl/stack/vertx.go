@@ -1,4 +1,4 @@
-package stacks
+package stack
 
 var vertxYamls = []string{
 	vertxstackbareweb,

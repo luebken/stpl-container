@@ -8,21 +8,22 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"github.com/luebken/stpl/pkg/stpl/analysis"
 	"github.com/luebken/stpl/pkg/stpl/maven"
-	"github.com/luebken/stpl/pkg/stpl/stacks"
+	"github.com/luebken/stpl/pkg/stpl/stack"
 )
 
 func main() {
+	stack.ImportReferenceStacks()
 
-	stacks.ImportReferenceStacks()
-
-	println("stplsrv listening on :8088")
-	http.HandleFunc("/recommendation", getRecommendation)
+	log.Print("stplsrv listening on :8088")
+	http.HandleFunc("/", getHelp)
+	http.HandleFunc("/analysis", getAnalysis)
 	http.HandleFunc("/referencestacks", getReferenceStacks)
 	http.ListenAndServe(":8088", nil)
 }
 
-func getRecommendation(w http.ResponseWriter, req *http.Request) {
+func getAnalysis(w http.ResponseWriter, req *http.Request) {
 	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
 
 	body, err := ioutil.ReadAll(req.Body)
@@ -31,8 +32,23 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	}
 	projects := maven.Unmarshal(body)
 
-	advice := stacks.GetRecommendation(projects[0])
-	b, err := json.Marshal(advice)
+	type result struct {
+		Analysis analysis.Analysis
+	}
+	r := result{analysis.GetAnalysis(projects[0])}
+	b, err := json.Marshal(r)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Fprintf(w, "%v\n", string(b))
+}
+
+func getReferenceStacks(w http.ResponseWriter, req *http.Request) {
+	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
+
+	stacks := stack.AllReferenceStacks()
+	b, err := json.Marshal(stacks)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -41,15 +57,7 @@ func getRecommendation(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "%v\n", string(b))
 }
 
-func getReferenceStacks(w http.ResponseWriter, req *http.Request) {
-	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
+func getHelp(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "Available endpoints:\n /analysis\n /referencestacks\n")
 
-	stacks := stacks.AllReferenceStacks()
-	b, err := json.Marshal(stacks)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println()
-	fmt.Fprintf(w, "%v\n", string(b))
 }

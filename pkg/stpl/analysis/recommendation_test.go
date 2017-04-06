@@ -1,4 +1,4 @@
-package stacks
+package analysis
 
 import (
 	"log"

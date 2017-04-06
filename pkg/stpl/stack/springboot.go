@@ -1,4 +1,4 @@
-package stacks
+package stack
 
 // generated
 // git clone https://github.com/spring-projects/spring-boot

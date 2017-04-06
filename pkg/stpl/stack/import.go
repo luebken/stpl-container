@@ -1,4 +1,4 @@
-package stacks
+package stack
 
 import (
 	"fmt"
@@ -36,7 +36,7 @@ func NewDependency(groupid string, artefactid string, versionString string) (Dep
 	return d2, nil
 }
 
-func (s ReferenceStack) containsDependencyName(groupid string, artefactid string) (bool, Dependency) {
+func (s ReferenceStack) ContainsDependencyName(groupid string, artefactid string) (bool, Dependency) {
 	for _, d := range s.Dependencies {
 		if d.GroupID == groupid && d.ArtefactID == artefactid {
 			return true, d
