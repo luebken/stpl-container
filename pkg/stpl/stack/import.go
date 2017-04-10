@@ -51,16 +51,18 @@ func AllReferenceStacks() []ReferenceStack {
 
 func ImportReferenceStacks() {
 
-	yamls := append(vertxYamls, springBootYamls...)
+	//yamls := append(vertxYamls, springBootYamls...)
+	yamls := springBootYamls
 	for _, y := range yamls {
 		s := ReferenceStack{}
 		err := yaml.Unmarshal([]byte(y), &s)
 		if err != nil {
 			log.Fatalf("error: %v", err)
 		}
-		for _, d := range s.DependenciesRaw {
-			re, _ := regexp.Compile("([\\w\\.\\-]*):([\\w\\.\\-]*):([\\w\\.\\-]*)")
-			result := re.FindAllStringSubmatch(d, -1)
+		for _, depRaw := range s.DependenciesRaw {
+			//re, _ := regexp.Compile("([\\w\\.\\-]*):([\\w\\.\\-]*):([\\w\\.\\-]*)")
+			re, _ := regexp.Compile("([\\w\\.\\-]*):([\\w\\.\\-]*):([\\w*\\.\\w*\\.\\w]).*")
+			result := re.FindAllStringSubmatch(depRaw, -1)
 			versionString := result[0][3]
 			d2, err := NewDependency(result[0][1], result[0][2], versionString)
 			if err != nil {

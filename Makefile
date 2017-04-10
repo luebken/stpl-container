@@ -3,10 +3,13 @@
 # run `make` to see options
 .DEFAULT_GOAL := help
 
+export STPL_REDIS_PORT = 6379
+
 go-get: ## get go dependencies
 	go get github.com/blang/semver
 	go get gopkg.in/yaml.v2
 	go get github.com/Sirupsen/logrus
+	go get github.com/go-redis/redis
 
 
 go-run-server: ## runs the server
@@ -33,6 +36,13 @@ docker-build: ## builds a docker image (luebken/stpl)
 
 docker-run: docker-build ## runs stpl from docker
 	docker run -p 8088:8088 docker-registry.stage.engineering.redhat.com/luebken/stpl
+
+docker-run-redis: ## runs the redis db
+	docker run -p 6379:6379 --rm -v /Users/mdl/workspace/golang/src/github.com/luebken/stpl/data:/data --name stpl-redis redis:3 redis-server --appendonly yes
+
+
+# get backup: docker exec -it ce65835e8fc3 cat appendonly.aof > appendonly.aof
+# docker run -it --link stpl-redis:redis --rm redis redis-cli -h redis -p 6379
 
 docker-push: docker-build
 	docker login -p ${DOCKER_REGISTRY_TOKEN}  -e unused -u unused docker-registry.stage.engineering.redhat.com

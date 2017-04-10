@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	log "github.com/Sirupsen/logrus"
 
@@ -14,12 +15,39 @@ import (
 )
 
 func main() {
+	//init
+	redisPort := os.Getenv("STPL_REDIS_PORT")
+	if redisPort == "" {
+		log.Info("Didn't find env STPL_REDIS_PORT. Using default 6379")
+		redisPort = "6379"
+	}
+	analysis.RedisOptions.Addr = "localhost:" + redisPort
+	librariesIOKey := os.Getenv("LIBRARIES_IO_API_KEY")
+	if librariesIOKey == "" {
+		log.Info("Didn't find env LIBRARIES_IO_API_KEY.")
+		os.Exit(-1)
+	}
+	analysis.API_KEY = librariesIOKey
+
+	ping, err := analysis.TestRedis()
+	if err != nil || !ping {
+		log.Panic("Couldn't ping redis. Err: ", err)
+	}
+	keys, err := analysis.GetNumberOfCachedComponents()
+	if err != nil {
+		log.Panic("Couldn't get keys. Err: ", err)
+	} else {
+		log.Info("Connected to Redis. Number of cached components: ", keys)
+	}
+
 	stack.ImportReferenceStacks()
 
+	//start server
 	log.Print("stplsrv listening on :8088")
 	http.HandleFunc("/", getHelp)
 	http.HandleFunc("/analysis", getAnalysis)
 	http.HandleFunc("/referencestacks", getReferenceStacks)
+	http.HandleFunc("/admin/updatecomponentcache", getCachedComponents)
 	http.ListenAndServe(":8088", nil)
 }
 
@@ -53,11 +81,36 @@ func getReferenceStacks(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println()
 	fmt.Fprintf(w, "%v\n", string(b))
+}
+
+func getCachedComponents(w http.ResponseWriter, req *http.Request) {
+	log.Printf("%s %s %s", req.RemoteAddr, req.Method, req.URL)
+
+	stacks := stack.AllReferenceStacks()
+
+	numberOfCalls := 0
+	for _, stack := range stacks {
+		for _, dep := range stack.Dependencies {
+			if numberOfCalls < 50 {
+				c := analysis.GetComponentInfo("maven", dep.GroupID, dep.ArtefactID)
+				if c.UsedAPI {
+					numberOfCalls++
+				}
+			}
+		}
+	}
+	nrCachedComponents, err := analysis.GetNumberOfCachedComponents()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	log.Infof("Remote calls: %v", numberOfCalls)
+	msg := fmt.Sprintf("Cached components: %v", nrCachedComponents)
+	log.Info(msg)
+	fmt.Fprintf(w, "%v\n", msg)
 }
 
 func getHelp(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "Available endpoints:\n /analysis\n /referencestacks\n")
-
 }

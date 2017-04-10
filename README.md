@@ -4,6 +4,8 @@ Stpl (short for stapel, loosely German for stack) is a simplistic prototype to t
 
 ## Getting started
 
+TOODO LIBRARIES_IO_API_KEY
+
 ### Run pre-build Docker Image
 
     # run container:
