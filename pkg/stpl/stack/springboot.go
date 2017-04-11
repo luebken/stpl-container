@@ -61,7 +61,7 @@ var springBootYamls = []string{
 var springBootStarter = `
 name: Spring Boot Starter
 description: "Core starter, including auto-configuration support, logging and YAML"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-autoconfigure:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-logging:1.5.2.RELEASE
@@ -71,7 +71,7 @@ depdendencies:
 var springBootActiveMQStarter = `
 name: Spring Boot ActiveMQ Starter
 description: "Starter for JMS messaging using Apache ActiveMQ"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-jms:4.3.7.RELEASE
 - org.apache.activemq:activemq-broker:5.14.3
@@ -80,7 +80,7 @@ depdendencies:
 var springBootActuatorStarter = `
 name: Spring Boot Actuator Starter
 description: "Starter for using Spring Boot's Actuator which provides production ready features to help you monitor and manage your application"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-actuator:1.5.2.RELEASE
 `
@@ -88,7 +88,7 @@ depdendencies:
 var springBootAMQPStarter = `
 name: Spring Boot AMQP Starter
 description: "Starter for using Spring AMQP and Rabbit MQ"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-messaging:4.3.7.RELEASE
 - org.springframework.amqp:spring-rabbit:1.7.1.RELEASE
@@ -97,7 +97,7 @@ depdendencies:
 var springBootAOPStarter = `
 name: Spring Boot AOP Starter
 description: "Starter for aspect-oriented programming with Spring AOP and AspectJ"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-aop:4.3.7.RELEASE
 - org.aspectj:aspectjweaver:1.8.9
@@ -106,7 +106,7 @@ depdendencies:
 var springBootArtemisStarter = `
 name: Spring Boot Artemis Starter
 description: "Starter for JMS messaging using Apache Artemis"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-jms:4.3.7.RELEASE
 - org.apache.activemq:artemis-jms-client:1.5.3
@@ -115,7 +115,7 @@ depdendencies:
 var springBootBatchStarter = `
 name: Spring Boot Batch Starter
 description: "Starter for using Spring Batch"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-jdbc:1.5.2.RELEASE
 - org.springframework.batch:spring-batch-core:3.0.7.RELEASE
@@ -124,7 +124,7 @@ depdendencies:
 var springBootCacheStarter = `
 name: Spring Boot Cache Starter
 description: "Starter for using Spring Framework's caching support"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-context:4.3.7.RELEASE
 - org.springframework:spring-context-support:4.3.7.RELEASE
@@ -133,7 +133,7 @@ depdendencies:
 var springBootSpringCloudConnectorsStarter = `
 name: Spring Boot Spring Cloud Connectors Starter
 description: "Starter for using Spring Cloud Connectors which simplifies connecting to services in cloud platforms like Cloud Foundry and Heroku"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.cloud:spring-cloud-spring-service-connector:1.2.3.RELEASE
 - org.springframework.cloud:spring-cloud-cloudfoundry-connector:1.2.3.RELEASE
@@ -144,7 +144,7 @@ depdendencies:
 var springBootDataCassandraStarter = `
 name: Spring Boot Data Cassandra Starter
 description: "Starter for using Cassandra distributed database and Spring Data Cassandra"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-tx:4.3.7.RELEASE
 - org.springframework.data:spring-data-cassandra:1.5.1.RELEASE
@@ -153,7 +153,7 @@ depdendencies:
 var springBootDataCouchbaseStarter = `
 name: Spring Boot Data Couchbase Starter
 description: "Starter for using Couchbase document-oriented database and Spring Data Couchbase"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.data:spring-data-couchbase:2.2.1.RELEASE
 `
@@ -161,7 +161,7 @@ depdendencies:
 var springBootDataElasticsearchStarter = `
 name: Spring Boot Data Elasticsearch Starter
 description: "Starter for using Elasticsearch search and analytics engine and Spring Data Elasticsearch"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.data:spring-data-elasticsearch:2.1.1.RELEASE
 `
@@ -169,7 +169,7 @@ depdendencies:
 var springBootDataGemFireStarter = `
 name: Spring Boot Data GemFire Starter
 description: "Starter for using GemFire distributed data store and Spring Data GemFire"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.data:spring-data-gemfire:1.9.1.RELEASE
 `
@@ -177,7 +177,7 @@ depdendencies:
 var springBootDataJPAStarter = `
 name: Spring Boot Data JPA Starter
 description: "Starter for using Spring Data JPA with Hibernate"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-aop:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-jdbc:1.5.2.RELEASE
@@ -191,7 +191,7 @@ depdendencies:
 var springBootDataLDAPStarter = `
 name: Spring Boot Data LDAP Starter
 description: "Starter for using Spring Data LDAP"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.data:spring-data-ldap:1.0.1.RELEASE
 `
@@ -199,7 +199,7 @@ depdendencies:
 var springBootDataMongoDBStarter = `
 name: Spring Boot Data MongoDB Starter
 description: "Starter for using MongoDB document-oriented database and Spring Data MongoDB"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.mongodb:mongodb-driver:3.4.2
 - org.springframework.data:spring-data-mongodb:1.10.1.RELEASE
@@ -208,7 +208,7 @@ depdendencies:
 var springBootDataMongoDBReactiveStarter = `
 name: Spring Boot Data MongoDB Reactive Starter
 description: "Starter for using MongoDB document-oriented database and Spring Data MongoDB Reactive"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:2.0.0.BUILD-SNAPSHOT
 - org.springframework.data:spring-data-mongodb:2.0.0.BUILD-SNAPSHOT
 - org.mongodb:mongodb-driver:3.4.2
@@ -220,7 +220,7 @@ depdendencies:
 var springBootDataNeo4jStarter = `
 name: Spring Boot Data Neo4j Starter
 description: "Starter for using Neo4j graph database and Spring Data Neo4j"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.data:spring-data-neo4j:4.2.1.RELEASE
 `
@@ -228,7 +228,7 @@ depdendencies:
 var springBootDataRedisStarter = `
 name: Spring Boot Data Redis Starter
 description: "Starter for using Redis key-value data store with Spring Data Redis and the Jedis client"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.data:spring-data-redis:1.8.1.RELEASE
 - redis.clients:jedis:2.9.0
@@ -237,7 +237,7 @@ depdendencies:
 var springBootDataRESTStarter = `
 name: Spring Boot Data REST Starter
 description: "Starter for exposing Spring Data repositories over REST using Spring Data REST"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - com.fasterxml.jackson.core:jackson-annotations:2.8.0
@@ -248,7 +248,7 @@ depdendencies:
 var springBootDataSolrStarter = `
 name: Spring Boot Data Solr Starter
 description: "Starter for using the Apache Solr search platform with Spring Data Solr"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.apache.solr:solr-solrj:5.5.4
 - org.springframework.data:spring-data-solr:2.1.1.RELEASE
@@ -258,7 +258,7 @@ depdendencies:
 var springBootFreeMarkerStarter = `
 name: Spring Boot FreeMarker Starter
 description: "Starter for building MVC web applications using FreeMarker views"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.freemarker:freemarker:2.3.25-incubating
@@ -268,7 +268,7 @@ depdendencies:
 var springBootGroovyTemplatesStarter = `
 name: Spring Boot Groovy Templates Starter
 description: "Starter for building MVC web applications using Groovy Templates views"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.codehaus.groovy:groovy-templates:2.4.9
@@ -277,7 +277,7 @@ depdendencies:
 var springBootHATEOASStarter = `
 name: Spring Boot HATEOAS Starter
 description: "Starter for building hypermedia-based RESTful web application with Spring MVC and Spring HATEOAS"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE
 - org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE
@@ -286,7 +286,7 @@ depdendencies:
 var springBootIntegrationStarter = `
 name: Spring Boot Integration Starter
 description: "Starter for using Spring Integration"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-aop:1.5.2.RELEASE
 - org.springframework.integration:spring-integration-core:4.3.8.RELEASE
@@ -296,7 +296,7 @@ depdendencies:
 var springBootJDBCStarter = `
 name: Spring Boot JDBC Starter
 description: "Starter for using JDBC with the Tomcat JDBC connection pool"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.apache.tomcat:tomcat-jdbc:8.5.11
 - org.springframework:spring-jdbc:4.3.7.RELEASE
@@ -305,7 +305,7 @@ depdendencies:
 var springBootJerseyStarter = `
 name: Spring Boot Jersey Starter
 description: "Starter for building RESTful web applications using JAX-RS and Jersey. An alternative to spring-boot-starter-web"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-tomcat:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-validation:1.5.2.RELEASE
@@ -322,7 +322,7 @@ depdendencies:
 var springBootJettyStarter = `
 name: Spring Boot Jetty Starter
 description: "Starter for using Jetty as the embedded servlet container. An alternative to spring-boot-starter-tomcat"
-depdendencies:
+dependencies:
 - org.eclipse.jetty:jetty-servlets:9.4.2.v20170220
 - org.eclipse.jetty:jetty-webapp:9.4.2.v20170220
 - org.eclipse.jetty.websocket:websocket-server:9.4.2.v20170220
@@ -333,7 +333,7 @@ depdendencies:
 var springBootJOOQStarter = `
 name: Spring Boot JOOQ Starter
 description: "Starter for using jOOQ to access SQL databases. An alternative to spring-boot-starter-data-jpa or spring-boot-starter-jdbc"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-jdbc:1.5.2.RELEASE
 - org.springframework:spring-tx:4.3.7.RELEASE
@@ -343,7 +343,7 @@ depdendencies:
 var springBootAtomikosJTAStarter = `
 name: Spring Boot Atomikos JTA Starter
 description: "Starter for JTA transactions using Atomikos"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - com.atomikos:transactions-jms:3.9.3
 - com.atomikos:transactions-jta:3.9.3
@@ -354,7 +354,7 @@ depdendencies:
 var springBootBitronixJTAStarter = `
 name: Spring Boot Bitronix JTA Starter
 description: "Starter for JTA transactions using Bitronix"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - javax.jms:jms-api:1.1-rev-1
 - javax.transaction:javax.transaction-api:1.2
@@ -364,7 +364,7 @@ depdendencies:
 var springBootNarayanaJTAStarter = `
 name: Spring Boot Narayana JTA Starter
 description: "Spring Boot Narayana JTA Starter"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.jboss:jboss-transaction-spi:7.5.1.Final
 - org.jboss.narayana.jta:jdbc:5.5.3.Final
@@ -377,7 +377,7 @@ depdendencies:
 var springBootLog4j2Starter = `
 name: Spring Boot Log4j 2 Starter
 description: "Starter for using Log4j2 for logging. An alternative to spring-boot-starter-logging"
-depdendencies:
+dependencies:
 - org.apache.logging.log4j:log4j-slf4j-impl:2.7
 - org.apache.logging.log4j:log4j-api:2.7
 - org.apache.logging.log4j:log4j-core:2.7
@@ -388,7 +388,7 @@ depdendencies:
 var springBootLoggingStarter = `
 name: Spring Boot Logging Starter
 description: "Starter for logging using Logback. Default logging starter"
-depdendencies:
+dependencies:
 - ch.qos.logback:logback-classic:1.2.2
 - org.slf4j:jcl-over-slf4j:1.7.25
 - org.slf4j:jul-to-slf4j:1.7.25
@@ -398,7 +398,7 @@ depdendencies:
 var springBootMailStarter = `
 name: Spring Boot Mail Starter
 description: "Starter for using Java Mail and Spring Framework's email sending support"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-context:4.3.7.RELEASE
 - org.springframework:spring-context-support:4.3.7.RELEASE
@@ -408,7 +408,7 @@ depdendencies:
 var springBootMobileStarter = `
 name: Spring Boot Mobile Starter
 description: "Starter for building web applications using Spring Mobile"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE
@@ -417,7 +417,7 @@ depdendencies:
 var springBootMustacheStarter = `
 name: Spring Boot Mustache Starter
 description: "Starter for building MVC web applications using Mustache views"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - com.samskivert:jmustache:1.13
@@ -426,20 +426,20 @@ depdendencies:
 var springBootStarterParent = `
 name: Spring Boot Starter Parent
 description: "Parent pom providing dependency and plugin management for applications built with Maven"
-depdendencies:
+dependencies:
 `
 
 var springBootReactorNettyStarter = `
 name: Spring Boot Reactor Netty Starter
 description: "Starter for using Reactor Netty as the embedded reactive HTTP server."
-depdendencies:
+dependencies:
 - io.projectreactor.ipc:reactor-netty:0.6.2.RELEASE
 `
 
 var springBootSecurityStarter = `
 name: Spring Boot Security Starter
 description: "Starter for using Spring Security"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework:spring-aop:4.3.7.RELEASE
 - org.springframework.security:spring-security-config:4.2.2.RELEASE
@@ -449,7 +449,7 @@ depdendencies:
 var springBootSocialFacebookStarter = `
 name: Spring Boot Social Facebook Starter
 description: "Starter for using Spring Social Facebook"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework.social:spring-social-config:1.1.4.RELEASE
@@ -461,7 +461,7 @@ depdendencies:
 var springBootSocialLinkedInStarter = `
 name: Spring Boot Social LinkedIn Starter
 description: "Stater for using Spring Social LinkedIn"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework.social:spring-social-config:1.1.4.RELEASE
@@ -473,7 +473,7 @@ depdendencies:
 var springBootSocialTwitterStarter = `
 name: Spring Boot Social Twitter Starter
 description: "Starter for using Spring Social Twitter"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework.social:spring-social-config:1.1.4.RELEASE
@@ -485,7 +485,7 @@ depdendencies:
 var springBootTestStarter = `
 name: Spring Boot Test Starter
 description: "Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-test:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-test-autoconfigure:1.5.2.RELEASE
 - com.jayway.jsonpath:json-path:2.2.0
@@ -502,7 +502,7 @@ depdendencies:
 var springBootThymeleafStarter = `
 name: Spring Boot Thymeleaf Starter
 description: "Starter for building MVC web applications using Thymeleaf views"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.thymeleaf:thymeleaf-spring4:2.1.5.RELEASE
@@ -512,7 +512,7 @@ depdendencies:
 var springBootTomcatStarter = `
 name: Spring Boot Tomcat Starter
 description: "Starter for using Tomcat as the embedded servlet container. Default servlet container starter used by spring-boot-starter-web"
-depdendencies:
+dependencies:
 - org.apache.tomcat.embed:tomcat-embed-core:8.5.11
 - org.apache.tomcat.embed:tomcat-embed-el:8.5.11
 - org.apache.tomcat.embed:tomcat-embed-websocket:8.5.11
@@ -521,7 +521,7 @@ depdendencies:
 var springBootUndertowStarter = `
 name: Spring Boot Undertow Starter
 description: "Starter for using Undertow as the embedded servlet container. An alternative to spring-boot-starter-tomcat"
-depdendencies:
+dependencies:
 - io.undertow:undertow-core:1.4.11.Final
 - io.undertow:undertow-servlet:1.4.11.Final
 - io.undertow:undertow-websockets-jsr:1.4.11.Final
@@ -532,7 +532,7 @@ depdendencies:
 var springBootValidationStarter = `
 name: Spring Boot Validation Starter
 description: "Starter for using Java Bean Validation with Hibernate Validator"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.apache.tomcat.embed:tomcat-embed-el:8.5.11
 - org.hibernate:hibernate-validator:5.3.4.Final
@@ -541,7 +541,7 @@ depdendencies:
 var springBootWebStarter = `
 name: Spring Boot Web Starter
 description: "Starter for building web, including RESTful, applications using Spring MVC. Uses Tomcat as the default embedded container"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-tomcat:1.5.2.RELEASE
 - org.hibernate:hibernate-validator:5.3.4.Final
@@ -553,7 +553,7 @@ depdendencies:
 var springBootWebServicesStarter = `
 name: Spring Boot Web Services Starter
 description: "Starter for using Spring Web Services"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework:spring-oxm:4.3.7.RELEASE
@@ -563,7 +563,7 @@ depdendencies:
 var springBootWebFluxStarter = `
 name: Spring Boot WebFlux Starter
 description: "Starter for building WebFlux applications using Spring Framework's Reactive Web support"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:2.0.0.BUILD-SNAPSHOT
 - org.springframework.boot:spring-boot-starter-reactor-netty:2.0.0.BUILD-SNAPSHOT
 - com.fasterxml.jackson.core:jackson-databind:2.9.0.pr2
@@ -575,7 +575,7 @@ depdendencies:
 var springBootWebSocketStarter = `
 name: Spring Boot WebSocket Starter
 description: "Starter for building WebSocket applications using Spring Framework's WebSocket support"
-depdendencies:
+dependencies:
 - org.springframework.boot:spring-boot-starter:1.5.2.RELEASE
 - org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE
 - org.springframework:spring-messaging:4.3.7.RELEASE

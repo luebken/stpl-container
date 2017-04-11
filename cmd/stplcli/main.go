@@ -35,7 +35,7 @@ func main() {
 	descNoTabs := strings.Replace(projects[0].Description, "\t", "", -1)
 	descNoNewLines := strings.Replace(descNoTabs, "\n", " ", -1)
 	fmt.Printf("description: %#v\n", descNoNewLines)
-	fmt.Print("depdendencies: \n")
+	fmt.Print("dependencies: \n")
 
 	for _, dep := range projects[0].Dependencies.Dependencies {
 		if dep.Scope == "compile" {
