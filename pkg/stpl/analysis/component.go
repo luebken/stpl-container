@@ -1,6 +1,7 @@
 package analysis
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -19,59 +20,70 @@ var RedisOptions = &redis.Options{
 var API_KEY = ""
 
 type ComponentInfo struct {
-	Raw     string
-	UsedAPI bool
+	LibrariesIoComponent LibrariesIoComponent
+	UsedAPI              bool
 }
 
 func GetComponentInfo(platform string, groupid string, artefact string) ComponentInfo {
 
-	result := ""
+	var libioc LibrariesIoComponent
 	usedAPI := false
 	cachekey := "component" + ":" + platform + ":" + groupid + ":" + artefact
 
 	log.Info("Getting Component info for " + cachekey)
 
 	redisClient := redis.NewClient(RedisOptions)
-	result, err := redisClient.Get(cachekey).Result()
+	jsonRaw, err := redisClient.Get(cachekey).Result()
 	if err == redis.Nil {
 		log.Info("Cache miss for key: ", cachekey)
 	} else if err != nil {
 		log.Errorf("Err when getting key %v. Error:%v ", cachekey, err)
 	}
+	request := fmt.Sprintf("https://libraries.io/api/%v/%v%%3A%v?api_key=%v", platform, groupid, artefact, API_KEY)
+	log.Println(request)
 
-	if result == "" { // not cached
+	if jsonRaw == "" { // not cached
 		log.Info("Not cached. Quering libraries.io.")
-		request := fmt.Sprintf("https://libraries.io/api/%v/%v%%3A%v?api_key=%v", platform, groupid, artefact, API_KEY)
 		resp, err := http.Get(request)
 		usedAPI = true
 		if err != nil {
 			log.Errorf("Error calling http.Get %v", err)
-			return ComponentInfo{result, usedAPI}
+			return ComponentInfo{libioc, usedAPI}
 
 		}
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Error(err)
-			return ComponentInfo{result, usedAPI}
+			return ComponentInfo{libioc, usedAPI}
 		}
-		result = string(body)
+
+		err = json.Unmarshal(body, &libioc)
+		if err != nil {
+			log.Errorf("Error unmarshaling Error: %v\nJson:\n %v", err, string(body))
+			return ComponentInfo{libioc, usedAPI}
+		}
 
 		//cache result
 		pipe := redisClient.TxPipeline()
-		pipe.Set(cachekey, result, 0)
+		pipe.Set(cachekey, string(body), 0)
 		pipe.Set(cachekey+":modified", time.Now().Unix(), 0)
 		_, err = pipe.Exec()
 		if err != nil {
 			log.Error(err)
-			return ComponentInfo{result, usedAPI}
+			return ComponentInfo{libioc, usedAPI}
 		}
-
 	} else {
 		log.Info("Using cached result.")
+		err = json.Unmarshal([]byte(jsonRaw), &libioc)
+		if err != nil {
+			log.Errorf("Error unmarshaling Error: %v\nJson:\n %v", err, jsonRaw)
+			return ComponentInfo{libioc, usedAPI}
+		}
+
 	}
 
-	return ComponentInfo{result, usedAPI}
+	return ComponentInfo{libioc, usedAPI}
 }
 
 func TestRedis() (bool, error) {
