@@ -21,7 +21,7 @@ func main() {
 		log.Info("Didn't find env STPL_REDIS_PORT. Using default 6379")
 		redisPort = "6379"
 	}
-	analysis.RedisOptions.Addr = "localhost:" + redisPort
+	analysis.RedisOptions.Addr = "redis:" + redisPort
 	librariesIOKey := os.Getenv("LIBRARIES_IO_API_KEY")
 	if librariesIOKey == "" {
 		log.Info("Didn't find env LIBRARIES_IO_API_KEY.")
