@@ -1,3 +1,4 @@
+# build image
 FROM golang
 
 ADD Makefile /
