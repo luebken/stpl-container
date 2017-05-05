@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: stpl
+  name: redis
 spec:
   selector:
-    app: stpl
+    app: redis
   ports:
-  - port: 8088
+  - port: 6379
   type: NodePort

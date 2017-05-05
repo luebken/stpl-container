@@ -11,7 +11,12 @@ spec:
     spec:
       containers:
       - name: stpl
-        image: luebken/stpl
+        image: docker.io/luebken/stpl
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 8088
+        env:
+          - name: REDIS_URL
+            value: redis.mdl.svc:6379
+          - name: LIBRARIES_IO_API_KEY
+            value: <TODO_INSERT>

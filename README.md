@@ -27,9 +27,16 @@ TOODO LIBRARIES_IO_API_KEY
 
 ### Docker Registry
 
-    * Get a token at https://registry-console.stage.engineering.redhat.com/registry
-    $ export DOCKER_REGISTRY_TOKEN=<TOKEN>
+    $ make docker-build
     $ make docker-push
+
+### MiniShift
+
+    $ oc new-project mdl
+    $ oc create -f k8s/deployment-redis.yaml && oc create -f k8s/service-redis.yaml
+    $ oc create -f k8s/deployment.yaml && oc create -f k8s/service.yaml
+    $ oc create -f k8s/route.yaml
+    $ curl -X POST -d @e2etests/example-1-pom.xml $(oc get route -o=jsonpath='{.items[0].spec.host}')/analytics
 
 ### MiniKube
 
@@ -40,14 +47,6 @@ TOODO LIBRARIES_IO_API_KEY
     $ kubectl create -f k8s/service.yaml
     $ curl -X POST -d @e2etests/example-1-pom.xml $(minikube service stpl --url)/analytics
 
-### MiniShift
-
-    $ eval $(minishift docker-env)
-    $ make builddocker
-    $ oc create -f k8s/deployment.yaml
-    $ oc create -f k8s/service.yaml
-    $ oc create -f k8s/route.yaml
-    $ curl -X POST -d @e2etests/example-1-pom.xml $(oc get route -o=jsonpath='{.items[0].spec.host}')/analytics
 
 
 ## Notes
