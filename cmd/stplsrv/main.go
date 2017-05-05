@@ -16,12 +16,12 @@ import (
 
 func main() {
 	//init
-	redisPort := os.Getenv("STPL_REDIS_PORT")
-	if redisPort == "" {
-		log.Info("Didn't find env STPL_REDIS_PORT. Using default 6379")
-		redisPort = "6379"
+	redisUrl := os.Getenv("REDIS_URL")
+	if redisUrl == "" {
+		log.Info("Didn't find env REDIS_URL. Using default 6379")
+		redisUrl = ":6379"
 	}
-	analysis.RedisOptions.Addr = "redis:" + redisPort
+	analysis.RedisOptions.Addr = redisUrl
 	librariesIOKey := os.Getenv("LIBRARIES_IO_API_KEY")
 	if librariesIOKey == "" {
 		log.Info("Didn't find env LIBRARIES_IO_API_KEY.")
