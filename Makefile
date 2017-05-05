@@ -32,10 +32,10 @@ docker-build: ## builds a docker image (luebken/stpl)
 	chmod 755 ./stplsrv
 
 	# build final image
-	docker build --tag=docker-registry.stage.engineering.redhat.com/luebken/stpl .
+	docker build --tag=luebken/stpl .
 
 docker-run: ## runs stpl from docker
-	docker run -p 8088:8088  --link stpl-redis:redis --env LIBRARIES_IO_API_KEY=$(LIBRARIES_IO_API_KEY) --env REDIS_URL=redis:6379 docker-registry.stage.engineering.redhat.com/luebken/stpl
+	docker run -p 8088:8088  --link stpl-redis:redis --env LIBRARIES_IO_API_KEY=$(LIBRARIES_IO_API_KEY) --env REDIS_URL=redis:6379 luebken/stpl
 
 docker-run-redis: ## runs the redis db
 	docker run -p 6379:6379 --rm -v /Users/mdl/workspace/golang/src/github.com/luebken/stpl/data:/data --name stpl-redis redis:3 redis-server --appendonly yes
@@ -44,9 +44,9 @@ docker-run-redis: ## runs the redis db
 # get backup: docker exec -it ce65835e8fc3 cat appendonly.aof > appendonly.aof
 # docker run -it --link stpl-redis:redis --rm redis redis-cli -h redis -p 6379
 
-docker-push: docker-build
-	docker login -p ${DOCKER_REGISTRY_TOKEN}  -e unused -u unused docker-registry.stage.engineering.redhat.com
-	docker push docker-registry.stage.engineering.redhat.com/luebken/stpl
+docker-push:
+# docker login -p ${DOCKER_REGISTRY_TOKEN}  -e unused -u unused docker-registry.stage.engineering.redhat.com
+	docker push luebken/stpl
 
 # build go binary
 # gets called within docker build
