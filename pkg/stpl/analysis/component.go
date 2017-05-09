@@ -5,16 +5,23 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-redis/redis"
 )
 
-var RedisOptions = &redis.Options{
-	Addr:     "",
-	Password: "", // no password set
-	DB:       0,  // use default DB
+var RedisOptions = &redis.Options{}
+
+func SetRedisURL(rurl string) {
+	log.Info("using redis url: " + rurl)
+	redisURL, _ := url.Parse(rurl)
+	RedisOptions.Addr = redisURL.Host
+	if redisURL.User != nil {
+		RedisOptions.Password, _ = redisURL.User.Password()
+	}
+	RedisOptions.DB = 0
 }
 
 var API_KEY = ""

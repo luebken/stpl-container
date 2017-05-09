@@ -35,7 +35,7 @@ docker-build: ## builds a docker image (luebken/stpl)
 	docker build --tag=luebken/stpl .
 
 docker-run: ## runs stpl from docker
-	docker run -p 8088:8088  --link stpl-redis:redis --env LIBRARIES_IO_API_KEY=$(LIBRARIES_IO_API_KEY) --env REDIS_URL=redis:6379 luebken/stpl
+	docker run -p 8088:8088  --link stpl-redis:redis --env LIBRARIES_IO_API_KEY=$(LIBRARIES_IO_API_KEY) --env REDIS_URL=redis://redis:6379 luebken/stpl
 
 docker-run-redis: ## runs the redis db
 	docker run -p 6379:6379 --rm -v /Users/mdl/workspace/golang/src/github.com/luebken/stpl/data:/data --name stpl-redis redis:3 redis-server --appendonly yes

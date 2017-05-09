@@ -19,9 +19,9 @@ func main() {
 	redisUrl := os.Getenv("REDIS_URL")
 	if redisUrl == "" {
 		log.Info("Didn't find env REDIS_URL. Using default 6379")
-		redisUrl = ":6379"
+		redisUrl = "localhost:6379"
 	}
-	analysis.RedisOptions.Addr = redisUrl
+	analysis.SetRedisURL(redisUrl)
 	librariesIOKey := os.Getenv("LIBRARIES_IO_API_KEY")
 	if librariesIOKey == "" {
 		log.Info("Didn't find env LIBRARIES_IO_API_KEY.")
