@@ -60,6 +60,8 @@ func GetComponentInfo(platform string, groupid string, artefact string) Componen
 		}
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
+		log.Infof("Response. Status: %v. Length: %v", resp.Status, len(body))
+
 		if err != nil {
 			log.Error(err)
 			return ComponentInfo{libioc, usedAPI}

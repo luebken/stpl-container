@@ -1,8 +1,6 @@
 package analysis
 
 import (
-	"log"
-
 	"github.com/luebken/stpl/pkg/stpl/maven"
 )
 
@@ -18,9 +16,6 @@ func GetAnalysis(project maven.Project) Analysis {
 		group := dep.GroupID
 		artefact := dep.ArtifactID
 		c := GetComponentInfo("maven", group, artefact)
-		log.Printf("Print component name %v", c.LibrariesIoComponent.Name)
-		log.Printf("Print component RepositoryUrl %v", c.LibrariesIoComponent.RepositoryURL)
-		log.Printf("Print component Status %v", c.LibrariesIoComponent.Status)
 		libs = append(libs, c.LibrariesIoComponent)
 	}
 	return Analysis{r, libs}
