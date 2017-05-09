@@ -1,7 +1,6 @@
-FROM alpine:3.5
+FROM scratch
 
-RUN apk add --update -U ca-certificates \
-    && rm -rf /var/cache/apk/*
+ADD ca-certificates.crt /etc/ssl/certs/
 
 ADD stplsrv /
 EXPOSE 8080
