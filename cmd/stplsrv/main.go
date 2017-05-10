@@ -63,6 +63,7 @@ func getAnalysis(w http.ResponseWriter, req *http.Request) {
 	type result struct {
 		Analysis analysis.Analysis
 	}
+	log.Printf("Analysing %v %v", projects[0].GroupID, projects[0].ArtifactID)
 	r := result{analysis.GetAnalysis(projects[0])}
 	b, err := json.Marshal(r)
 	if err != nil {
@@ -112,5 +113,11 @@ func getCachedComponents(w http.ResponseWriter, req *http.Request) {
 }
 
 func getHelp(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Available endpoints:\n /analysis\n /referencestacks\n")
+	s := `
+Available endpoints:\n 
+* POST /analysis\n 
+* GET /referencestacks\n
+\n\n
+More info at https://github.com/luebken/stpl`
+	fmt.Fprintf(w, s)
 }
