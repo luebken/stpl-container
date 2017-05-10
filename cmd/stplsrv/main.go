@@ -121,7 +121,7 @@ func getHelp(w http.ResponseWriter, req *http.Request) {
 	s := `
 <html>
 <body>
-Example and API docs: <a href="https://github.com/luebken/stpl/docs">github.com/luebken/stpl/docs</a>
+Example and API docs: <a href="https://github.com/luebken/stpl/blob/master/docs">github.com/luebken/stpl/docs</a>
 </body>
 </html>
 `
