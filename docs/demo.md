@@ -2,10 +2,17 @@
 
 A demo instance of stpl is running at: http://stpl-mdl.1d35.starter-us-east-1.openshiftapps.com/
 
-A simple test:
+## A simple example.
+
+Let's say our have you are building a java vertx application. And you have the following pom.xml:
 
     $ curl -O https://github.com/luebken/stpl/blob/master/e2etests/example-1-vertx-web-outdated-rx-java-effective-pom.xml
+
+You can get in analyzed by quering the ``analysis` endpoint:
+
     $ curl -X GET -d @example-1-vertx-web-outdated-rx-java-effective-pom.xml stpl-mdl.1d35.starter-us-east-1.openshiftapps.com/analysis
+
+And would get result like this:
     $ {
     "Analysis": {
         "Recommendation": {
