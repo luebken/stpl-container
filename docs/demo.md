@@ -6,11 +6,10 @@ A demo instance of stpl is running at: http://stpl-mdl.1d35.starter-us-east-1.op
 
 Let's say our have you are building a java vertx application. And you have the following pom.xml:
 
-    $ curl -O https://github.com/luebken/stpl/blob/master/e2etests/example-1-vertx-web-outdated-rx-java-effective-pom.xml
+    $ curl -O https://raw.githubusercontent.com/luebken/stpl/master/e2etests/example-1-vertx-web-outdated-rx-java-effective-pom.xml
+You can get in analyzed by quering the `analysis` endpoint:
 
-You can get in analyzed by quering the ``analysis` endpoint:
-
-    $ curl -X GET -d @example-1-vertx-web-outdated-rx-java-effective-pom.xml stpl-mdl.1d35.starter-us-east-1.openshiftapps.com/analysis
+    $ curl -X GET -d @example-1-vertx-web-outdated-rx-java-effective-pom.xml stpl-mdl.1d35.starter-us-east-1.openshiftapps.com/analysis |jq .
 
 And would get result like this:
     $ {
