@@ -11,6 +11,7 @@ import (
 
 	"github.com/luebken/stpl/pkg/stpl/analysis"
 	"github.com/luebken/stpl/pkg/stpl/maven"
+	"github.com/luebken/stpl/pkg/stpl/npm"
 	"github.com/luebken/stpl/pkg/stpl/stack"
 )
 
@@ -56,18 +57,32 @@ func getAnalysis(w http.ResponseWriter, req *http.Request) {
 
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		panic(err)
+		log.Errorf("Error reading body: %v", err)
 	}
-	projects := maven.Unmarshal(body)
 
 	type result struct {
 		Analysis analysis.Analysis
 	}
-	log.Printf("Analysing %v %v", projects[0].GroupID, projects[0].ArtifactID)
-	r := result{analysis.GetAnalysis(projects[0])}
+	r := result{}
+
+	// Maven
+	projects, err := maven.Unmarshal(body)
+	if err != nil {
+		log.Infof("Couldn't parse Maven (pom.xml) %v", err)
+	} else {
+		log.Printf("Analysing %v %v", projects[0].GroupID, projects[0].ArtifactID)
+		r = result{analysis.GetAnalysis(projects[0])}
+	}
+
+	// NodeJS
+	pkg, err := npm.Unmarshal(body)
+	log.Infof("NPM package (package.json) %v", pkg)
+	r = result{analysis.GetAnalysis2(pkg)}
+
+	// Result
 	b, err := json.Marshal(r)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		return
 	}
 	fmt.Fprintf(w, "%v\n", string(b))
@@ -94,7 +109,7 @@ func getCachedComponents(w http.ResponseWriter, req *http.Request) {
 	for _, stack := range stacks {
 		for _, dep := range stack.Dependencies {
 			if numberOfCalls < 50 {
-				c := analysis.GetComponentInfo("maven", dep.GroupID, dep.ArtefactID)
+				c := analysis.GetComponentInfo("maven", dep.GroupID+":"+dep.ArtefactID)
 				if c.UsedAPI {
 					numberOfCalls++
 				}

@@ -12,6 +12,7 @@ You can get in analyzed by quering the `analysis` endpoint:
     $ curl -X GET -d @example-1-vertx-web-outdated-rx-java-effective-pom.xml stpl-mdl.1d35.starter-us-east-1.openshiftapps.com/analysis |jq .
 
 And would get result like this:
+    
     $ {
     "Analysis": {
         "Recommendation": {
@@ -41,3 +42,7 @@ And would get result like this:
             "keywords": []
         },
         ....
+
+    NPM    
+    $ curl -s -X GET -d @e2etests/meanjs-package.json stpl-mdl.1d35.starter-us-east-1.openshiftapps.com/analysis | jq .
+

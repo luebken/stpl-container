@@ -45,12 +45,12 @@ func (p Project) ContainsDependency(groupid string, artifactid string) (bool, Ma
 }
 
 // Unmarshal pom.xmls with top level <projects> or <project>
-func Unmarshal(data []byte) []Project {
+func Unmarshal(data []byte) ([]Project, error) {
 	var result []Project
 
 	//try with <projects> as top level
 	var ps Projects
-	xml.Unmarshal(data, &ps)
+	_ = xml.Unmarshal(data, &ps)
 	if len(ps.Projects) > 0 {
 		for _, p := range ps.Projects {
 			result = append(result, p)
@@ -58,8 +58,11 @@ func Unmarshal(data []byte) []Project {
 
 	} else { // try with <project> as top level
 		var p Project
-		xml.Unmarshal(data, &p)
+		err := xml.Unmarshal(data, &p)
+		if err != nil {
+			return nil, err
+		}
 		result = append(result, p)
 	}
-	return result
+	return result, nil
 }

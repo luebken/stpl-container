@@ -16,11 +16,11 @@ type ComponentInfo struct {
 	UsedAPI              bool
 }
 
-func GetComponentInfo(platform string, groupid string, artefact string) ComponentInfo {
+func GetComponentInfo(platform string, dependency string) ComponentInfo {
 
 	var libioc LibrariesIoComponent
 	usedAPI := false
-	cachekey := "component" + ":" + platform + ":" + groupid + ":" + artefact
+	cachekey := "component" + ":" + platform + ":" + dependency
 
 	log.Info("Getting Component info for " + cachekey)
 
@@ -31,7 +31,7 @@ func GetComponentInfo(platform string, groupid string, artefact string) Componen
 	} else if err != nil {
 		log.Errorf("Err when getting key %v. Error:%v ", cachekey, err)
 	}
-	request := fmt.Sprintf("https://libraries.io/api/%v/%v%%3A%v?api_key=%v", platform, groupid, artefact, librariesIoAPIKey)
+	request := fmt.Sprintf("https://libraries.io/api/%v/%v?api_key=%v", platform, dependency, librariesIoAPIKey)
 	log.Println(request)
 
 	if jsonRaw == "" { // not cached
