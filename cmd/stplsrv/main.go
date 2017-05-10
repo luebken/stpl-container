@@ -114,10 +114,16 @@ func getCachedComponents(w http.ResponseWriter, req *http.Request) {
 
 func getHelp(w http.ResponseWriter, req *http.Request) {
 	s := `
+<html>
+<body>
 Available endpoints: 
-* POST /analysis 
-* GET /referencestacks
-
-More info at https://github.com/luebken/stpl`
+<ul>
+<li>GET /analysis </li>
+<li>GET /referencestacks </li>
+</ul>
+More info at <a href="https://github.com/luebken/stpl">github.com/luebken/stpl</a>
+</body>
+</html>
+`
 	fmt.Fprintf(w, s)
 }
