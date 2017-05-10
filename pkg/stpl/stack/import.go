@@ -56,8 +56,7 @@ func AllReferenceStacks() []ReferenceStack {
 
 func ImportReferenceStacks() {
 
-	//yamls := append(vertxYamls, springBootYamls...)
-	yamls := springBootYamls
+	yamls := append(vertxYamls, springBootYamls...)
 	for _, y := range yamls {
 		s := ReferenceStack{}
 		err := yaml.Unmarshal([]byte(y), &s)
