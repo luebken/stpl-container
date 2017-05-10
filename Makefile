@@ -24,7 +24,7 @@ e2etests: ## run the e2etests
 docker-build: ## builds a docker image (luebken/stpl)
 
 	# build builder image which calls `make buildgo`
-	docker build --no-cache -t luebken/build-stpl -f ./Dockerfile.build .
+	docker build -t luebken/build-stpl -f ./Dockerfile.build .
 
 	# cp binary to local file 
 	docker run -t luebken/build-stpl /bin/true
