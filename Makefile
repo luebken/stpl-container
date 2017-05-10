@@ -5,14 +5,14 @@
 
 export STPL_REDIS_PORT = 6379
 
-go-get: ## get go dependencies
+go-get: # get go dependencies
 	go get github.com/blang/semver
 	go get gopkg.in/yaml.v2
 	go get github.com/Sirupsen/logrus
 	go get github.com/go-redis/redis
 
 
-go-run-server: ## runs the server
+go-run: ## runs the server
 	go run cmd/stplsrv/main.go
 
 go-test:
