@@ -9,6 +9,11 @@ type Analysis struct {
 	LibrariesIoComponents []LibrariesIoComponent
 }
 
+// @Title getAnalysis
+// @Description Get an analysis for a given pom.xml
+// @Accept  xml
+// @Body	pom.xml
+// @Router /analysis/ [get]
 func GetAnalysis(project maven.Project) Analysis {
 	r := GetRecommendation(project)
 	libs := []LibrariesIoComponent{}

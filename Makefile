@@ -1,4 +1,4 @@
-.PHONY: e2etests
+.PHONY: e2etests docs
 
 # run `make` to see options
 .DEFAULT_GOAL := help
@@ -53,6 +53,9 @@ docker-push:
 go-build:
 	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o stplsrv ./go/src/github.com/luebken/stpl/cmd/stplsrv
 
+# API docs based on https://github.com/yvasiyarov/swagger
+docs: ##create docs
+	swagger -format=markdown -apiPackage="github.com/luebken/stpl/pkg/stpl/" -mainApiFile="github.com/luebken/stpl/cmd/stplsrv/main.go" -output=docs/API.md
 
 # via http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:

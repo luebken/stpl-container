@@ -14,6 +14,11 @@ import (
 	"github.com/luebken/stpl/pkg/stpl/stack"
 )
 
+// @APIVersion 0.0.1
+// @APITitle Stpl API
+// @APIDescription https://github.com/luebken/stpl
+// @SubApi Analysis [/analysis]
+// @SubApi ReferenceStacks [/referencestacks]
 func main() {
 	//init
 	redisUrl := os.Getenv("REDIS_URL")
@@ -116,12 +121,7 @@ func getHelp(w http.ResponseWriter, req *http.Request) {
 	s := `
 <html>
 <body>
-Available endpoints: 
-<ul>
-<li>GET /analysis </li>
-<li>GET /referencestacks </li>
-</ul>
-More info at <a href="https://github.com/luebken/stpl">github.com/luebken/stpl</a>
+Example and API docs: <a href="https://github.com/luebken/stpl/docs">github.com/luebken/stpl/docs</a>
 </body>
 </html>
 `
