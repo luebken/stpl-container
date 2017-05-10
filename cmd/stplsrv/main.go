@@ -20,24 +20,19 @@ import (
 // @SubApi Analysis [/analysis]
 // @SubApi ReferenceStacks [/referencestacks]
 func main() {
-	//init
-	redisUrl := os.Getenv("REDIS_URL")
-	if redisUrl == "" {
-		log.Info("Didn't find env REDIS_URL. Using default 6379")
-		redisUrl = "localhost:6379"
-	}
-	analysis.SetRedisURL(redisUrl)
-	librariesIOKey := os.Getenv("LIBRARIES_IO_API_KEY")
-	if librariesIOKey == "" {
-		log.Info("Didn't find env LIBRARIES_IO_API_KEY.")
+
+	//init & prerequisites
+	err := analysis.GetEnvRedisURL()
+	if err != nil {
+		log.Error("Couldn't get REDIS_URL.", err)
 		os.Exit(-1)
 	}
-	analysis.API_KEY = librariesIOKey
-
-	ping, err := analysis.TestRedis()
-	if err != nil || !ping {
-		log.Panic("Couldn't ping redis. Err: ", err)
+	err = analysis.GetLibrariesIoAPIKey()
+	if err != nil {
+		log.Error("Couldn't get LIBRARIES_IO_API_KEY.", err)
+		os.Exit(-1)
 	}
+
 	keys, err := analysis.GetNumberOfCachedComponents()
 	if err != nil {
 		log.Panic("Couldn't get keys. Err: ", err)
