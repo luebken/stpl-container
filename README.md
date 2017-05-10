@@ -4,7 +4,9 @@ Stpl (short for stapel, loosely German for stack) is a simplistic prototype to t
 
 ## Getting started
 
-TOODO LIBRARIES_IO_API_KEY
+### Prerequisites
+
+    * Get an API Key from https://libraries.io/ and set it as LIBRARIES_IO_API_KEY
 
 ### Run pre-build Docker Image
 
@@ -38,6 +40,10 @@ TOODO LIBRARIES_IO_API_KEY
     $ oc create -f k8s/route.yaml
     $ curl -X POST -d @e2etests/example-1-pom.xml $(oc get route -o=jsonpath='{.items[0].spec.host}')/analytics
 
+### online
+    # get online accound and login
+    $ oc new-project mdl
+
 ### MiniKube
 
     $ minikube start --vm-driver=xhyve --insecure-registry=docker-registry.stage.engineering.redhat.com
@@ -46,8 +52,6 @@ TOODO LIBRARIES_IO_API_KEY
     $ kubectl create -f k8s/deployment.yaml
     $ kubectl create -f k8s/service.yaml
     $ curl -X POST -d @e2etests/example-1-pom.xml $(minikube service stpl --url)/analytics
-
-
 
 ## Notes
 
