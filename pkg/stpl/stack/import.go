@@ -47,8 +47,7 @@ func (s ReferenceStack) ContainsDependencyName(groupid string, artefactid string
 
 // @Title getReferenceStacks
 // @Description Get all reference stacks known to the system
-// @Accept  xml
-// @Body	pom.xml
+// @Produce	json
 // @Success 200 {array} ReferenceStack
 // @Router /referencestacks/ [get]
 func AllReferenceStacks() []ReferenceStack {

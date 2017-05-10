@@ -17,7 +17,7 @@ Table of Contents
 | API Version | 0.0.1 |
 | BasePath for the API | {{.}} |
 | Consumes | application/xml |
-| Produces |  |
+| Produces | application/json |
 
 
 
@@ -48,8 +48,8 @@ Get an analysis for a given pom.xml
 | Resource Path | /referencestacks |
 | API Version | 0.0.1 |
 | BasePath for the API | {{.}} |
-| Consumes | application/xml |
-| Produces |  |
+| Consumes |  |
+| Produces | application/json |
 
 
 
